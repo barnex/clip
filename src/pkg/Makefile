@@ -3,8 +3,7 @@ PKGDIR=$(GOROOT)/pkg/$(GOOS)_$(GOARCH)
 
 TARG=clip
 
-GOFILES=\
-	library.go\
+GOFILES=$(wildcard *.go)
 
 CLEANFILES+=$(PKGDIR)/$(TARG).a 
 	

@@ -5,5 +5,6 @@ import("clip"
 
 func main(){
 	lib := clip.NewLib()
+	lib.Add("/home/arne/music/kraftwerk/autobahn.mp3")
 	fmt.Print(lib)
 }
