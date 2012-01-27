@@ -6,30 +6,21 @@ import(
 
 // Node in the Library's file tree
 type Node struct{
-	str string
+	data string
 	parent *Node
 	children []*Node
 }
 
-func NewNode(str string, parent *Node)*Node{
+// Construct new node with given parent (possibly nil)
+// and link the parent-child pointers
+func NewNode(data string, parent *Node)*Node{
 	node := &Node{str, parent, []*Node{}}
 	if parent != nil{parent.children = append(parent.children, node)}
 	return node
 }
 
-func(n*Node)Add(str string){
-	Debug("Node.Add", str)
-	slash := strings.Index(str, "/")
-	root := str[:slash]
-	Debug("root=", root)
-	base := str[slash+1:]
-	Debug("base=", base)
-	child := n.Child(root)
-	if child == nil{
-		child = NewNode(root, n)
-	}
-}
 
+// 
 func(n*Node)String()string{
 	str := n.str
 	for p := n.parent; p!=nil; p=p.parent{
@@ -38,9 +29,9 @@ func(n*Node)String()string{
 	return str
 }
 
-func(n*Node)Child(str string)*Node{
-	for _,c:=range n.children{
-		if c.str == str{return c}
-	}
-	return nil
-}
+//func(n*Node)Child(str string)*Node{
+//	for _,c:=range n.children{
+//		if c.str == str{return c}
+//	}
+//	return nil
+//}

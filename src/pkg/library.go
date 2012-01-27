@@ -13,8 +13,8 @@ func NewLib()*Lib{
 	return &Lib{NewNode("", nil)}
 }
 
-func(lib*Lib)Add(str string){
-	lib.Root.Add(str)
+func(lib*Lib)Add(file string){
+
 }
 
 
