@@ -14,9 +14,11 @@ type Node struct {
 // Construct new node with given parent (possibly nil)
 // and link the parent-child pointers
 func NewNode(file string, parent *Node) *Node {
-	node := &Node{file, parent, []*Node{}}
-	if parent != nil {
-		parent.children = append(parent.children, node)
+	Debug("NewNode", file, parent)
+	node := &Node{file, parent, nil}
+	if node.parent != nil {
+		node.parent.children = append(node.parent.children, node)
+		Debug("node.parent.children=" ,node.parent.children)
 	}
 	Debug("NewNode=", node)
 	return node
@@ -24,13 +26,13 @@ func NewNode(file string, parent *Node) *Node {
 
 
 // 
-func (n *Node) String() string {
-	str := n.file
-	for p := n.parent; p != nil; p = p.parent {
-		str = p.file + "/" + str
-	}
-	return str
-}
+//func (n *Node) String() string {
+//	str := n.file
+//	for p := n.parent; p != nil; p = p.parent {
+//		str = p.file + "/" + str
+//	}
+//	return str
+//}
 
 
 func (n *Node) Add(path string) {
@@ -42,7 +44,7 @@ func (n *Node) Add(path string) {
 	slash := strings.Index(path, "/")
 	root := path
 	base := ""
-	if slash != -1{
+	if slash != -1 {
 		root = path[:slash]
 		base = path[slash+1:]
 	}
@@ -52,7 +54,9 @@ func (n *Node) Add(path string) {
 	if child == nil {
 		child = NewNode(root, n)
 	}
-	if base != ""{child.Add(base)}
+	if base != "" {
+		child.Add(base)
+	}
 }
 
 

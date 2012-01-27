@@ -15,3 +15,9 @@ func NewLib() *Lib {
 func (lib *Lib) Add(file string) {
 	lib.root.Add(file)
 }
+
+func(lib*Lib)String()string{
+	n := lib.root
+	str = n.file
+	for _,c:=range n.children{}
+}
