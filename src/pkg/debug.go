@@ -1,9 +1,9 @@
 package clip
 
-import(
+import (
 	"fmt"
 )
 
-func Debug(msg ...interface{}){
+func Debug(msg ...interface{}) {
 	fmt.Println(msg...)
 }
