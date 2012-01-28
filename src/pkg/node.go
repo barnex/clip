@@ -2,6 +2,9 @@ package clip
 
 import (
 	"strings"
+	"fmt"
+	"io"
+	"os"
 )
 
 // Node in the Library's file tree
@@ -13,9 +16,9 @@ type Node struct {
 
 
 // Walks through the tree and applies function f to each Node
-func (n *Node) Walk(f func(*Node)) {
-	f(n)
-	for _, c := range n.children {
+func (this *Node) Walk(f func(*Node)) {
+	f(this)
+	for _, c := range this.children {
 		c.Walk(f)
 	}
 }
@@ -34,14 +37,18 @@ func (parent *Node) NewChild(file string) (child *Node) {
 }
 
 
-// 
-//func (n *Node) String() string {
-//	str := n.file
-//	for p := n.parent; p != nil; p = p.parent {
-//		str = p.file + "/" + str
-//	}
-//	return str
-//}
+func (n *Node) String() string {
+	str := n.file
+	for p := n.parent; p != nil; p = p.parent {
+		str = p.file + "/" + str
+	}
+	return str
+}
+
+func (this *Node) WriteTo(out io.Writer) (n int, err os.Error) {
+	n, err = fmt.Fprintln(out, this)
+	return
+}
 
 
 func (n *Node) Add(path string) {
