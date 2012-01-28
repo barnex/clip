@@ -11,5 +11,3 @@ type Lib struct {
 func NewLib() *Lib {
 	return &Lib{&Node{"", nil, nil}}
 }
-
-

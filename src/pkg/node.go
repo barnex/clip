@@ -13,21 +13,21 @@ type Node struct {
 
 
 // Walks through the tree and applies function f to each Node
-func(n*Node)Walk(f func(*Node)){
+func (n *Node) Walk(f func(*Node)) {
 	f(n)
-	for _,c := range n.children{
+	for _, c := range n.children {
 		c.Walk(f)
 	}
 }
 
 // Construct new node with given parent (possibly nil)
 // and link the parent-child pointers
-func (parent*Node)NewChild(file string) (child*Node) {
+func (parent *Node) NewChild(file string) (child *Node) {
 	Debug("NewNode", file, parent)
 	child = &Node{file, parent, nil}
 	if parent != nil {
 		parent.children = append(parent.children, child)
-		Debug("node.parent.children=" ,parent.children)
+		Debug("node.parent.children=", parent.children)
 	}
 	Debug("NewNode=", child)
 	return
