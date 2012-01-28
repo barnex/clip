@@ -4,20 +4,12 @@ import ()
 
 // Stores a music Library
 type Lib struct {
-	root *Node
+	*Node
 }
 
 // Constructs a new Library
 func NewLib() *Lib {
-	return &Lib{NewNode("", nil)}
+	return &Lib{&Node{"", nil, nil}}
 }
 
-func (lib *Lib) Add(file string) {
-	lib.root.Add(file)
-}
 
-func(lib*Lib)String()string{
-	n := lib.root
-	str = n.file
-	for _,c:=range n.children{}
-}
