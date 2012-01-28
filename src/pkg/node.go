@@ -48,7 +48,7 @@ func (this *Node) WriteTo(out io.Writer) (n int, err os.Error) {
 }
 
 // Add a slash-separated path to the tree.
-func (n *Node) Add(path string) {
+func (n *Node) AddPath(path string) {
 	// remove leading slash from path,
 	// root node is already present
 	if strings.HasPrefix(path, "/") {
@@ -70,7 +70,7 @@ func (n *Node) Add(path string) {
 
 	// recursively add base
 	if base != "" {
-		child.Add(base)
+		child.AddPath(base)
 	}
 }
 
