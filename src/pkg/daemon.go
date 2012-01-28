@@ -41,4 +41,5 @@ func MainDaemon(args []string) {
 	}
 	Debug("Listening on port " + PORT)
 	http.Serve(l, nil)
+	//TODO: log errors.
 }
