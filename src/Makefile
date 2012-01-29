@@ -11,6 +11,6 @@ pkg/_obj: pkg/*.go
 
 .PHONY:	clean
 clean:
-	rm -f clip 
+	rm -f clip *.$O
 	gomake clean -C pkg
 
