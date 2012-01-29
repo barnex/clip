@@ -3,13 +3,16 @@ package clip
 import (
 	"os"
 	"rpc"
-	"fmt"
 	"net"
 	"http"
 )
 
+type Command func([]string)(string, os.Error)
+
 var (
-	library *Lib
+	library *Lib = NewLib()
+	command map[string]Command = make(map[string]Command)
+	port string = ":25274"
 )
 
 type PlayerRPC struct{} // dummy type
@@ -20,23 +23,29 @@ func (d *PlayerRPC) AutoComplete(args []string, resp *string) (err os.Error) {
 }
 
 func (d *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
-	*resp = fmt.Sprint("called:", args)
-	return nil
+	cmd := args[0]
+	args = args[1:]
+	_, ok := command[cmd]
+	if !ok{
+		*resp = "no such command: " + cmd
+		err = os.NewError(*resp)
+	}
+	return
 }
 
 
-const (
-	PORT = ":25274"
-)
-
 func MainDaemon(args []string) {
+	serveRPC()
+}
+
+func serveRPC() {
 	rpc.Register(&PlayerRPC{})
 	rpc.HandleHTTP()
-	conn, err := net.Listen("tcp", PORT)
+	conn, err := net.Listen("tcp", port)
 	if err != nil {
 		Err("listen error:", err)
 	}
-	Debug("Listening on port " + PORT)
+	Debug("Listening on port " + port)
 	http.Serve(conn, nil)
 	//TODO: log errors.
 }

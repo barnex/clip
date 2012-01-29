@@ -11,16 +11,16 @@ import (
 func MainClient(args []string) {
 	client := dialDaemon()
 	var resp string
-	err2 := client.Call("Daemon.Call", args, &resp)
+	err2 := client.Call("PlayerRPC.Call", args, &resp)
 	Check(err2)
-	fmt.Println(resp)
+	fmt.Print(resp)
 }
 
 // Connect to the clip daemon for RPC communication.
 // Starts the daemon if he's not yet running.
 func dialDaemon() *rpc.Client {
 	// try to call the daemon
-	client, err := rpc.DialHTTP("tcp", "localhost"+PORT)
+	client, err := rpc.DialHTTP("tcp", "localhost"+port)
 
 	// if daemon does not seem to be running, start him.
 	const SLEEP = 10e6 // nanoseconds
@@ -33,7 +33,7 @@ func dialDaemon() *rpc.Client {
 	// give him some time to come up.
 	trials := 0
 	for err != nil && trials < 10 {
-		client, err = rpc.DialHTTP("tcp", "localhost"+PORT)
+		client, err = rpc.DialHTTP("tcp", "localhost"+port)
 		time.Sleep(SLEEP)
 		trials++
 	}
