@@ -24,6 +24,6 @@ func Err(msg ...interface{}) {
 // If err != nil, print it and exit.
 func Check(err os.Error) {
 	if err != nil {
-		Err(err)
+		panic(err)
 	}
 }

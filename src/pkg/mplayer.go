@@ -4,32 +4,25 @@ package clip
 
 import (
 	"exec"
+	"log"
 )
 
 type MPlayer struct {
-	*exec.Cmd
 }
 
-func (m *MPlayer) Playing() bool {
-	return m.Cmd != nil
-}
 
 func (m *MPlayer) Play(file string) chan int {
-	m.Stop()
-	m.Cmd = exec.Command("mplayer", "-realy-quiet", file)
+	cmd := exec.Command("mplayer", "-really-quiet", file)
 	done := make(chan int)
 	go func() {
-		err := m.Cmd.Run()
+		out, err := cmd.CombinedOutput()
 		Check(err)
+		log.Println("mplayer output", string(out))
 		done <- 1
 	}()
 	return done
 }
 
 func (m *MPlayer) Stop() {
-	if m.Cmd != nil {
-		err := m.Cmd.Process.Kill()
-		Check(err)
-		m.Cmd = nil
-	}
+	
 }
