@@ -18,13 +18,14 @@ type Command func([]string) (string, os.Error)
 
 // Here the player state is stored.
 var (
-	library *Lib               = NewLib() // the player's library
+	library *Lib               = NewLib()                 // the player's library
 	command map[string]Command = make(map[string]Command) // the player's commands
-	port    string             = ":25274" // default RPC port
+	port    string             = ":25274"                 // default RPC port
+	backend Backend = new(MPlayer)
 )
 
 // Dummy type to define RPC methods on.
-type PlayerRPC struct{} 
+type PlayerRPC struct{}
 
 // RPC-exported function used for auto-completion (clip -c).
 // The command-line arguments are passed (see complete.bash)

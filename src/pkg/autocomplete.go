@@ -15,7 +15,7 @@ import (
 // yields args:
 //	beta clip alpha beta
 func AutoComplete(args []string) {
-	if len(args) == 0{
+	if len(args) == 0 {
 		return // should not happen
 	}
 	if len(args) == 1 {
@@ -34,7 +34,7 @@ func AutoComplete(args []string) {
 // Auto-complete function for player commands like 
 //	add ls play ...
 func completeCommands(prefix string) {
-	for cmd,_ := range command {
+	for cmd, _ := range command {
 		if strings.HasPrefix(cmd, prefix) {
 			fmt.Print(cmd, " ")
 		}
