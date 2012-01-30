@@ -15,6 +15,9 @@ import (
 // yields args:
 //	beta clip alpha beta
 func AutoComplete(args []string) {
+	if len(args) == 0{
+		return // should not happen
+	}
 	if len(args) == 1 {
 		// fix for word = "" (omitted by bash)
 		args = []string{"", args[0], ""}
@@ -27,10 +30,11 @@ func AutoComplete(args []string) {
 	}
 }
 
-var commands []string = []string{"add", "play", "pause", "stop"}
 
+// Auto-complete function for player commands like 
+//	add ls play ...
 func completeCommands(prefix string) {
-	for _, cmd := range commands {
+	for cmd,_ := range command {
 		if strings.HasPrefix(cmd, prefix) {
 			fmt.Print(cmd, " ")
 		}

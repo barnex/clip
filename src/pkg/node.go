@@ -1,5 +1,7 @@
 package clip
 
+// This file implements the Nodes of a filesystem tree.
+
 import (
 	"strings"
 	"fmt"

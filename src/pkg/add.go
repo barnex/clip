@@ -1,9 +1,12 @@
 package clip
 
+// This file implements the "add" command
+
 import (
 	"os"
 )
 
+// Register the command
 func init() {
 	command["add"] = Add
 }

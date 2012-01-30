@@ -1,5 +1,7 @@
 package clip
 
+// This file implements the Library data structure.
+
 import (
 	"io"
 	"os"
@@ -7,7 +9,7 @@ import (
 
 // Stores a music Library
 type Lib struct {
-	*Node
+	*Node // filesystem root
 }
 
 // Constructs a new Library

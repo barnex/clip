@@ -1,5 +1,8 @@
 package clip
 
+// This file implements the client main function.
+// Invoked whenever the user types executes "clip".
+
 import (
 	"rpc"
 	"fmt"
@@ -8,6 +11,8 @@ import (
 )
 
 // Main loop for "client" mode (the normal mode).
+// Simply passes the arguments to the daemon and
+// displays the result.
 func MainClient(args []string) {
 	client := dialDaemon()
 	var resp string

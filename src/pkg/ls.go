@@ -1,10 +1,13 @@
 package clip
 
+// This file implements the "ls" command.
+
 import (
 	"os"
 	"bytes"
 )
 
+// Register the command.
 func init() {
 	command["ls"] = Ls
 }
