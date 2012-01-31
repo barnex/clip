@@ -17,7 +17,7 @@ func Add(args []string) (resp string, err os.Error) {
 		return
 	}
 	for _, arg := range args {
-		library.fs.AddPath(arg)
+		AddPath(library.fs, arg)
 		resp += "Added " + arg + "\n"
 	}
 	return

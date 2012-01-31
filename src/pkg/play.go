@@ -17,7 +17,7 @@ func Play(args []string) (resp string, err os.Error) {
 		return
 	}
 	for _, arg := range args {
-		done := backend.Play(arg)
+		done := backend.Play(library.Lookup(arg).String())
 		<-done
 	}
 	return

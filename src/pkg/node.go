@@ -3,7 +3,6 @@ package clip
 // This file implements the Nodes of a filesystem tree.
 
 import (
-	"strings"
 	"fmt"
 	"io"
 	"os"
@@ -49,32 +48,6 @@ func (this *Node) WriteTo(out io.Writer) (n int, err os.Error) {
 	return
 }
 
-// Add a slash-separated path to the tree.
-func (n *Node) AddPath(path string) {
-	// remove leading slash from path,
-	// root node is already present
-	if strings.HasPrefix(path, "/") {
-		path = path[1:]
-	}
-
-	// split path into root and base 
-	slash := strings.Index(path, "/")
-	root, base := path, ""
-	if slash != -1 {
-		root, base = path[:slash+1], path[slash+1:]
-	}
-
-	// add root as a new child if not yet present
-	child := n.Child(root)
-	if child == nil {
-		child = n.NewChild(root)
-	}
-
-	// recursively add base
-	if base != "" {
-		child.AddPath(base)
-	}
-}
 
 // Get a child by its file string.
 func (n *Node) Child(file string) *Node {

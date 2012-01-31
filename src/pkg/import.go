@@ -45,7 +45,7 @@ func importFile(arg string) {
 	}
 
 	if info.IsRegular() {
-		library.fs.AddPath(arg)
+		library.AddFile(arg)
 		return
 	}
 }
