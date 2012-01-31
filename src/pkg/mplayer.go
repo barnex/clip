@@ -8,14 +8,15 @@ import (
 )
 
 type MPlayer struct {
+	cmd *exec.Cmd
 }
 
 
 func (m *MPlayer) Play(file string) chan int {
-	cmd := exec.Command("mplayer", "-really-quiet", file)
+	m.cmd = exec.Command("mplayer", "-really-quiet", file)
 	done := make(chan int)
 	go func() {
-		out, err := cmd.CombinedOutput()
+		out, err := m.cmd.CombinedOutput()
 		Check(err)
 		log.Println("mplayer output", string(out))
 		done <- 1
@@ -24,5 +25,5 @@ func (m *MPlayer) Play(file string) chan int {
 }
 
 func (m *MPlayer) Stop() {
-	
+
 }

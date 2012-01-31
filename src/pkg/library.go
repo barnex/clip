@@ -9,12 +9,18 @@ import (
 
 // Stores a music Library
 type Lib struct {
-	*Node // filesystem root
+	fs     *Node // filesystem root
+	lookup []Item
+}
+
+type Item struct {
+	name string
+	file *Node
 }
 
 // Constructs a new Library
 func NewLib() *Lib {
-	return &Lib{&Node{"/", nil, nil}}
+	return &Lib{&Node{"/", nil, nil}, []Item{}}
 }
 
 // Print the entire library recursively
@@ -26,6 +32,6 @@ func (lib *Lib) WriteTo(out io.Writer) (n int, err os.Error) {
 			err = err1
 		}
 	}
-	lib.Walk(printf)
+	lib.fs.Walk(printf)
 	return
 }

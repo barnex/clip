@@ -11,7 +11,7 @@ import (
 
 // Node in the Library's file tree.
 type Node struct {
-	file     string
+	payload  interface{}
 	parent   *Node
 	children []*Node
 }
@@ -36,9 +36,9 @@ func (parent *Node) NewChild(file string) (child *Node) {
 
 // Returns full path represented by this node.
 func (n *Node) String() string {
-	str := n.file
+	str := fmt.Sprint(n.payload)
 	for p := n.parent; p != nil; p = p.parent {
-		str = p.file + str
+		str = fmt.Sprint(p.payload, str)
 	}
 	return str
 }
@@ -79,7 +79,7 @@ func (n *Node) AddPath(path string) {
 // Get a child by its file string.
 func (n *Node) Child(file string) *Node {
 	for _, c := range n.children {
-		if c.file == file {
+		if c.payload == file {
 			return c
 		}
 	}

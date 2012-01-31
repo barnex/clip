@@ -21,7 +21,7 @@ var (
 	library *Lib               = NewLib()                 // the player's library
 	command map[string]Command = make(map[string]Command) // the player's commands
 	port    string             = ":25274"                 // default RPC port
-	backend Backend = new(MPlayer)
+	backend Backend            = new(MPlayer)
 )
 
 // Dummy type to define RPC methods on.
