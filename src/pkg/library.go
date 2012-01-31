@@ -10,17 +10,17 @@ import (
 // Stores a music Library
 type Lib struct {
 	fs     *Node // filesystem root
-	lookup []Item
+	//lookup []Item
 }
 
-type Item struct {
-	name string
-	file *Node
-}
+//type Item struct {
+//	name string
+//	file *Node
+//}
 
 // Constructs a new Library
 func NewLib() *Lib {
-	return &Lib{&Node{"/", nil, nil}, []Item{}}
+	return &Lib{&Node{"/", nil, nil}}
 }
 
 // Print the entire library recursively
