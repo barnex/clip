@@ -11,15 +11,43 @@ import (
 // Stores a music Library
 type Lib struct {
 	fs     *Node // filesystem root
-	lookup ItemArray
+	items ItemArray
 }
 // Constructs a new Library
 func NewLib() *Lib {
 	return &Lib{&Node{"/", nil, nil}, []Item{}}
 }
 
+// Recursively import directory or file into library.
+func(lib*Lib) Import(arg string) {
+	// rm trailing slash
+	if strings.HasSuffix(arg, "/") {
+		arg = arg[:len(arg)-1]
+	}
+
+	info, err := os.Stat(arg)
+	Check(err) // TODO: dontcrash
+
+	if info.IsDirectory() {
+		dir, err := os.OpenFile(arg, os.O_RDONLY, 0777)
+		Check(err)
+		files, err2 := dir.Readdirnames(-1)
+		Check(err2)
+		for _, f := range files {
+			lib.AddPath(lib.fs, arg)
+			lib.Import(arg + "/" + f)
+		}
+		return
+	}
+
+	if info.IsRegular() {
+		lib.AddPath(lib.fs, arg)
+		return
+	}
+}
+
 // Add a slash-separated path to the tree.
-func AddPath(node *Node, path string) {
+func (lib*Lib) AddPath(node *Node, path string) {
 	// remove leading slash from path,
 	// root node is already present
 	if strings.HasPrefix(path, "/") {
@@ -41,18 +69,13 @@ func AddPath(node *Node, path string) {
 
 	// recursively add base
 	if base != "" {
-		AddPath(child, base)
+		lib.AddPath(child, base)
 	}
 }
 
 
-func (lib *Lib) AddFile(file string) {
-	AddPath(lib.fs, file)
-	//lib.lookup.Add(file)
-}
-
 func(lib*Lib)Lookup(item string)*Node{
-	return lib.lookup.Lookup(item)
+	return lib.items.Lookup(item)
 }
 
 

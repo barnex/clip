@@ -15,7 +15,6 @@ type Node struct {
 	children []*Node
 }
 
-
 // Walks through the tree and applies function f to each Node.
 func (this *Node) Walk(f func(*Node)) {
 	f(this)
@@ -32,7 +31,6 @@ func (parent *Node) NewChild(file string) (child *Node) {
 	return
 }
 
-
 // Returns full path represented by this node.
 func (n *Node) String() string {
 	str := fmt.Sprint(n.payload)
@@ -47,7 +45,6 @@ func (this *Node) WriteTo(out io.Writer) (n int, err os.Error) {
 	n, err = fmt.Fprintln(out, this)
 	return
 }
-
 
 // Get a child by its file string.
 func (n *Node) Child(file string) *Node {
