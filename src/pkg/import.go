@@ -4,6 +4,7 @@ package clip
 
 import (
 	"os"
+	"strings"
 )
 
 // Register the command
@@ -23,24 +24,28 @@ func Import(args []string) (resp string, err os.Error) {
 }
 
 
-func importFile(arg string){
-	Debug("import", arg)
+func importFile(arg string) {
+	// rm trailing slash
+	if strings.HasSuffix(arg, "/") {
+		arg = arg[:len(arg)-1]
+	}
+
 	info, err := os.Stat(arg)
 	Check(err) // TODO: dontcrash
 
-	if info.IsDirectory(){
-		dir, err := os.OpenFile(arg, os.O_RDONLY, 0777)	
+	if info.IsDirectory() {
+		dir, err := os.OpenFile(arg, os.O_RDONLY, 0777)
 		Check(err)
 		files, err2 := dir.Readdirnames(-1)
 		Check(err2)
-		for _, f:= range files{
+		for _, f := range files {
 			importFile(arg + "/" + f)
 		}
 		return
 	}
 
-	if info.IsRegular(){
-		
+	if info.IsRegular() {
+		library.fs.AddPath(arg)
 		return
 	}
 }

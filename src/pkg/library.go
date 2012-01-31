@@ -9,7 +9,7 @@ import (
 
 // Stores a music Library
 type Lib struct {
-	fs     *Node // filesystem root
+	fs *Node // filesystem root
 	//lookup []Item
 }
 
