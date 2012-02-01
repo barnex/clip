@@ -6,22 +6,15 @@ import (
 )
 
 type Item struct {
-	name string
-	file *Node
+	tag string
+	file string
 }
 
 type ItemArray []Item
 
-func (arr ItemArray) Lookup(item string) *Node{
-	Debug("lookup", item, "in", arr)
-//	for i:=range arr{
-//		fmt.Println(arr[i])
-//	}
-	return  library.fs
-}
 
-func (arr *ItemArray) Add(item string, file *Node) {
-	*arr = append(*arr, Item{item, file})
+func (arr *ItemArray) Add(item Item){
+	*arr = append(*arr, item)
 	sort.Sort(arr)
 }
 
@@ -30,7 +23,7 @@ func (arr ItemArray) Len() int {
 }
 
 func (arr ItemArray) Less(i, j int) bool {
-	return Less(arr[i].name, arr[j].name)
+	return Less(arr[i].tag, arr[j].tag)
 }
 
 func Less(i, j string) bool {
