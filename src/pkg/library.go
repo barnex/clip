@@ -51,9 +51,22 @@ func(lib*Lib) Import(arg string) {
 func (lib *Lib) WriteTo(out io.Writer) (n int, err os.Error) {
 	for _,item:=range lib.items{
 		N, ERR := fmt.Fprintln(out, item)
-		if ERR != nil{err=ERR}
+		if ERR != nil{
+	err=ERR}
 		n+=N;
-	}	
+	}
 	return
 }
 
+// Find items based on tag
+func(lib*Lib) Find(tag string)(items []Item){
+	tag = Fuzzy(tag)
+	items = []Item{}
+	for _,item:=range lib.items{
+		if item.tag == tag{
+			items = append(items, item)
+			Debug("find", tag, ":", item.file)
+		}
+	}
+	return 
+}

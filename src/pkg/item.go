@@ -1,8 +1,8 @@
 package clip
 
 import (
-	//"sort"
 	"bytes"
+	"path"
 )
 
 type Item struct {
@@ -14,7 +14,7 @@ type ItemArray []Item
 
 
 func NewFile(file string)Item{
-	return Item{Tag(file), file}
+	return Item{tag: Fuzzy(path.Base(file)), file:file}
 }
 
 func (arr ItemArray) Len() int {

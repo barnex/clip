@@ -3,12 +3,10 @@ package clip
 // This file implements fuzzy tagging
 
 import (
-	"path"
 	"strings"
 )
 
-func Tag(file string)string{
-	file = path.Base(file)
+func Fuzzy(file string)string{
 	file = strings.ToLower(file)
 	return file
 }

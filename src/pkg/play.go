@@ -12,13 +12,20 @@ func init() {
 }
 
 func Play(args []string) (resp string, err os.Error) {
-//	if len(args) == 0 {
-//		err = os.NewError("nothing specified, nothing played")
-//		return
-//	}
-//	for _, arg := range args {
-//		done := backend.Play(library.Lookup(arg).String())
-//		<-done
-//	}
+	if len(args) == 0 {
+		err = os.NewError("nothing specified, nothing played")
+		return
+	}
+	for _, arg := range args {
+		items := library.Find(arg)
+		if len(items) == 0{
+			err = os.NewError(arg + " not found")
+			return
+		}
+		for _,i:=range items{
+			done := backend.Play(i.file)
+			<-done
+		}
+	}
 	return
 }
