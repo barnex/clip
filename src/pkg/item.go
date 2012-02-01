@@ -1,7 +1,7 @@
 package clip
 
 import (
-	"sort"
+	//"sort"
 	"bytes"
 )
 
@@ -13,9 +13,8 @@ type Item struct {
 type ItemArray []Item
 
 
-func (arr *ItemArray) Add(item Item){
-	*arr = append(*arr, item)
-	sort.Sort(arr)
+func NewFile(file string)Item{
+	return Item{Tag(file), file}
 }
 
 func (arr ItemArray) Len() int {
@@ -32,4 +31,8 @@ func Less(i, j string) bool {
 
 func (arr ItemArray) Swap(i, j int) {
 	arr[i], arr[j] = arr[j], arr[i]
+}
+
+func(item Item)String()string{
+	return item.tag + ":" + item.file
 }
