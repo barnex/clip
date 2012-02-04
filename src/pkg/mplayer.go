@@ -14,17 +14,15 @@ type MPlayer struct {
 
 func (m *MPlayer) Play(file string) {
 	m.cmd = exec.Command("mplayer", "-really-quiet", file)
-	go func() {
-		out, err := m.cmd.CombinedOutput()
-		Check(err)
-		log.Println("mplayer output", string(out))
-	}()
+	out, err := m.cmd.CombinedOutput()
+	Check(err) // TODO: err==killed is OK
+	log.Println("mplayer output", string(out))
 }
 
 func (m *MPlayer) Stop() {
 	if m.cmd != nil {
 		//err := 
-	m.cmd.Process.Kill()
+		m.cmd.Process.Kill()
 		//Check(err) // !! TODO: may already be finished in the meanwhile
 	}
 }

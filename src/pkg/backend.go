@@ -5,6 +5,6 @@ package clip
 import ()
 
 type Backend interface {
-	Play(file string)
-	Stop()
+	Play(file string) // play a file, block until done
+	Stop()            // stop playing
 }

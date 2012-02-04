@@ -15,12 +15,12 @@ import (
 
 // Here the player state is stored.
 var (
-	library  *Lib               = NewLib()                 // the player's library
-	command  map[string]Command = make(map[string]Command) // the player's commands
-	port     string             = ":25274"                 // default RPC port
-	backend  Backend            = new(MPlayer)
-	callChan chan Call         = make(chan Call) // calls ("play", ...) are sent here
-	playedChan chan int         = make(chan int) 
+	library    *Lib               = NewLib()                 // the player's library
+	command    map[string]Command = make(map[string]Command) // the player's commands
+	port       string             = ":25274"                 // default RPC port
+	backend    Backend            = new(MPlayer)
+	callChan   chan Call          = make(chan Call) // calls ("play", ...) are sent here
+	playedChan chan int           = make(chan int)
 )
 
 
@@ -65,9 +65,9 @@ type PlayerRPC struct{}
 // The command-line arguments are passed (e.g. "play jazz")
 // and a response to the user is returned in *resp.
 func (d *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
-	call := NewCall(args)        // wrap args in Call struct
-	callChan <- call             // send to event loop for execution
-	callResp := <-call.respChan  // wait for response
-	*resp = callResp.Resp        // set return value
+	call := NewCall(args)       // wrap args in Call struct
+	callChan <- call            // send to event loop for execution
+	callResp := <-call.respChan // wait for response
+	*resp = callResp.Resp       // set return value
 	return callResp.Err
 }
