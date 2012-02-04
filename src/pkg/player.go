@@ -20,7 +20,7 @@ var (
 	port     string             = ":25274"                 // default RPC port
 	backend  Backend            = new(MPlayer)
 	callChan chan Call         = make(chan Call) // calls ("play", ...) are sent here
-	//playedChan chan *Item         = make(chan *Item) 
+	playedChan chan int         = make(chan int) 
 )
 
 

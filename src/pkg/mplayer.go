@@ -12,16 +12,13 @@ type MPlayer struct {
 }
 
 
-func (m *MPlayer) Play(file string) chan int {
+func (m *MPlayer) Play(file string) {
 	m.cmd = exec.Command("mplayer", "-really-quiet", file)
-	done := make(chan int)
 	go func() {
 		out, err := m.cmd.CombinedOutput()
 		Check(err)
 		log.Println("mplayer output", string(out))
-		done <- 1
 	}()
-	return done
 }
 
 func (m *MPlayer) Stop() {

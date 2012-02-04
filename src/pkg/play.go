@@ -23,8 +23,10 @@ func Play(args []string) (resp string, err os.Error) {
 			return
 		}
 		for _, i := range items {
-			done := backend.Play(i.file)
-			<-done
+			go func(){
+				backend.Play(i.file)
+				playedChan <- 1
+			}()
 		}
 	}
 	return

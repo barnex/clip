@@ -5,6 +5,6 @@ package clip
 import ()
 
 type Backend interface {
-	Play(file string) chan int
+	Play(file string)
 	Stop()
 }
