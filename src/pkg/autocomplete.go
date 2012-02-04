@@ -3,9 +3,21 @@ package clip
 // This file implements bash programmable completion.
 
 import (
+	"os"
 	"fmt"
 	"strings"
 )
+
+// Register the command
+func init() {
+	command["complete"] = Complete
+}
+
+func Complete(args []string) (resp string, err os.Error) {
+	panic("please implement me")
+	return
+}
+
 
 // Used by "clip -c", invoked by bash completion.
 // args:
@@ -27,6 +39,7 @@ func AutoComplete(args []string) {
 	//line := args[2:]
 	if len(args) == 3 {
 		completeCommands(word)
+		return
 	}
 }
 

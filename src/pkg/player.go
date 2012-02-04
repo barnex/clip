@@ -19,7 +19,7 @@ var (
 	command  map[string]Command = make(map[string]Command) // the player's commands
 	port     string             = ":25274"                 // default RPC port
 	backend  Backend            = new(MPlayer)
-	callChan chan *Call         = make(chan *Call)
+	callChan chan *Call         = make(chan *Call) // calls ("play", ...) are sent here
 )
 
 
@@ -58,15 +58,6 @@ func serveRPC() {
 
 // Dummy type to define RPC methods on.
 type PlayerRPC struct{}
-
-
-// RPC-exported function used for auto-completion (clip -c).
-// The command-line arguments are passed (see complete.bash)
-// and a list of completions is returned in *resp.
-func (d *PlayerRPC) AutoComplete(args []string, resp *string) (err os.Error) {
-	*resp = "arne"
-	return nil
-}
 
 
 // RPC-exported function used for normal operation mode.
