@@ -15,12 +15,11 @@ import (
 
 // Here the player state is stored.
 var (
-	library      *Lib               = NewLib()                 // the player's library
-	command      map[string]Command = make(map[string]Command) // the player's commands
-	port         string             = ":25274"                 // default RPC port
-	backend      Backend            = new(MPlayer)
-	callChan     chan []string      = make(chan []string)
-	completeChan chan []string      = make(chan []string)
+	library  *Lib               = NewLib()                 // the player's library
+	command  map[string]Command = make(map[string]Command) // the player's commands
+	port     string             = ":25274"                 // default RPC port
+	backend  Backend            = new(MPlayer)
+	callChan chan *Call         = make(chan *Call)
 )
 
 
@@ -32,12 +31,13 @@ type Command func([]string) (string, os.Error)
 // Main loop for daemon mode
 func MainDaemon(args []string) {
 	go serveRPC()
-	// main loop
+	// event loop
 	for {
-		//	select{
-		//		case args := <- call
-		//		
-		//	}
+		select {
+		case call := <-callChan:
+			resp := call.Exec()
+			call.respChan <- resp
+		}
 	}
 }
 
@@ -73,10 +73,10 @@ func (d *PlayerRPC) AutoComplete(args []string, resp *string) (err os.Error) {
 // The command-line arguments are passed (e.g. "play jazz")
 // and a response to the user is returned in *resp.
 func (d *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
-	call, respChan := NewCall(args)
+	call := NewCall(args)
 	callChan <- call
-	*resp = <-respChan
-	err = os.NewError(<-repsChan)
-
+	callResp := <-call.respChan
+	*resp = callResp.Resp
+	err = callResp.Err
 	return
 }

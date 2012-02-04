@@ -1,19 +1,31 @@
 package clip
 
+
 import (
 	"os"
 )
 
+
+// Represents a call sent through RPC.
 type Call struct {
-	args []string
-	resp string
-	err  os.Error
-	resp chan *Call
+	Args     []string  // CLI args (e.g. "play jazz")
+	respChan chan Resp // send response here
+}
+
+// Response to a call.
+type Resp struct {
+	Resp string   // Response to user (e.g. "playing jazz")
+	Err  os.Error // Error to user (e.g. "jazz not found")
+}
+
+func NewCall(args []string) *Call {
+	return &Call{args, make(chan Resp)}
 }
 
 
-func HandleCall(call *Call) {
-	args := call.args
+// Parse and execute call, return response.
+func (call *Call) Exec() Resp {
+	args := call.Args
 
 	if len(args) == 0 {
 		args = []string{""}
@@ -22,11 +34,11 @@ func HandleCall(call *Call) {
 	args = args[1:]
 	Debug("player.call", cmd, args)
 	f, ok := command[cmd]
+	var resp Resp
 	if !ok {
-		call.err = "no such command: " + cmd
+		resp.Err = os.NewError("no such command: " + cmd)
 	} else {
-		call.resp, call.err = f(args)
+		resp.Resp, resp.Err = f(args)
 	}
-
-	call.respChan <- call
+	return resp
 }
