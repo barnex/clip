@@ -73,10 +73,9 @@ func (d *PlayerRPC) AutoComplete(args []string, resp *string) (err os.Error) {
 // The command-line arguments are passed (e.g. "play jazz")
 // and a response to the user is returned in *resp.
 func (d *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
-	call := NewCall(args)
-	callChan <- call
-	callResp := <-call.respChan
-	*resp = callResp.Resp
-	err = callResp.Err
-	return
+	call := NewCall(args)        // wrap args in Call struct
+	callChan <- call             // send to event loop for execution
+	callResp := <-call.respChan  // wait for response
+	*resp = callResp.Resp        // set return value
+	return callResp.Err
 }
