@@ -9,7 +9,7 @@ import (
 // or a collection of other Items.
 // Collections represent typically genres, artists, albums, etc.
 type Item struct {
-	tag string
+	tag  string
 	file string
 	// []*Item
 }
@@ -17,8 +17,8 @@ type Item struct {
 type ItemArray []*Item
 
 
-func NewFile(file string)*Item{
-	return &Item{tag: Fuzzy(path.Base(file)), file:file}
+func NewFile(file string) *Item {
+	return &Item{tag: Fuzzy(path.Base(file)), file: file}
 }
 
 func (arr ItemArray) Len() int {
@@ -37,6 +37,6 @@ func (arr ItemArray) Swap(i, j int) {
 	arr[i], arr[j] = arr[j], arr[i]
 }
 
-func(item Item)String()string{
+func (item Item) String() string {
 	return item.tag + ":" + item.file
 }

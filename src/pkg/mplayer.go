@@ -25,5 +25,8 @@ func (m *MPlayer) Play(file string) chan int {
 }
 
 func (m *MPlayer) Stop() {
-
+	if m.cmd != nil {
+		err := m.cmd.Process.Kill()
+		Check(err) // TODO: handle gracefully
+	}
 }

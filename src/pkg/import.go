@@ -21,5 +21,3 @@ func Import(args []string) (resp string, err os.Error) {
 	}
 	return
 }
-
-

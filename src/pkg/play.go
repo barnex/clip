@@ -18,11 +18,11 @@ func Play(args []string) (resp string, err os.Error) {
 	}
 	for _, arg := range args {
 		items := library.Find(arg)
-		if len(items) == 0{
+		if len(items) == 0 {
 			err = os.NewError(arg + " not found")
 			return
 		}
-		for _,i:=range items{
+		for _, i := range items {
 			done := backend.Play(i.file)
 			<-done
 		}
