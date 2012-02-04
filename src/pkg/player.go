@@ -19,7 +19,8 @@ var (
 	command  map[string]Command = make(map[string]Command) // the player's commands
 	port     string             = ":25274"                 // default RPC port
 	backend  Backend            = new(MPlayer)
-	callChan chan *Call         = make(chan *Call) // calls ("play", ...) are sent here
+	callChan chan Call         = make(chan Call) // calls ("play", ...) are sent here
+	//playedChan chan *Item         = make(chan *Item) 
 )
 
 

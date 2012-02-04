@@ -18,8 +18,8 @@ type Resp struct {
 	Err  os.Error // Error to user (e.g. "jazz not found")
 }
 
-func NewCall(args []string) *Call {
-	return &Call{args, make(chan Resp)}
+func NewCall(args []string) Call {
+	return Call{args, make(chan Resp)}
 }
 
 
