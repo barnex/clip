@@ -16,7 +16,7 @@ type Lib struct {
 
 // Constructs a new Library
 func NewLib() *Lib {
-	return &Lib{ItemArray([]Item{})}
+	return &Lib{ItemArray([]*Item{})}
 }
 
 // Recursively import directory or file into library.
@@ -59,9 +59,9 @@ func (lib *Lib) WriteTo(out io.Writer) (n int, err os.Error) {
 }
 
 // Find items based on tag
-func(lib*Lib) Find(tag string)(items []Item){
+func(lib*Lib) Find(tag string)(items []*Item){
 	tag = Fuzzy(tag)
-	items = []Item{}
+	items = []*Item{}
 	for _,item:=range lib.items{
 		if item.tag == tag{
 			items = append(items, item)
