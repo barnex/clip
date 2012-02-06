@@ -8,6 +8,7 @@ import (
 	"rpc"
 	"net"
 	"http"
+	"reflect"
 )
 
 // Start serving RPC calls from client instances.
@@ -32,11 +33,23 @@ type PlayerRPC Player
 // and a response to the user is returned in *resp.
 func (rpc *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
 	Debug("PlayerRPC.Call", args)
-	//	p := (*Player)(rpc)
-	//	call := NewCall(args)       // wrap args in Call struct
-	//	p.callChan <- call          // send to event loop for execution
-	//	callResp := <-call.respChan // wait for response
-	//	*resp = callResp.Resp       // set return value
-	//	return callResp.Err
+
+	player := (*Player)(rpc)
+
+	cmd := args[0]
+	args = args[1:]
+
+	p := reflect.ValueOf(player)
+	m := p.MethodByName(cmd)
+	Debug("MethodByName", cmd, ":", m)
+	if m.Kind() == reflect.Invalid{
+		err = os.NewError("clip: '" + cmd + "' is not a clip command. See clip help.")
+		return
+	}
+	r := m.Call([]reflect.Value{reflect.ValueOf(args)})
+	*resp = r[0].Interface().(string)   // by convention, response is 1st return value
+	errStr := r[1].Interface().(string) // by convention, error is 2nd return value
+	if errStr != ""{err = os.NewError(errStr)}
+
 	return
 }
