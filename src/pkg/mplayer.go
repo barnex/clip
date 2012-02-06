@@ -5,6 +5,8 @@ package clip
 import (
 	"exec"
 	"log"
+	"os"
+	//"fmt"
 )
 
 type MPlayer struct {
@@ -15,7 +17,17 @@ type MPlayer struct {
 func (m *MPlayer) Play(file string) {
 	m.cmd = exec.Command("mplayer", "-really-quiet", file)
 	out, err := m.cmd.CombinedOutput()
-	Check(err) // TODO: err==killed is OK
+
+	// If the command was killed with signal 9,
+	// the player was just stopped, so we don't crash
+	if waitmsg, ok := err.(*os.Waitmsg)	; ok{
+		if waitmsg.WaitStatus != 9{
+			Check(err)
+		}
+	}else{
+		Check(err) // TODO: don't crash 
+	}
+
 	log.Println("mplayer output", string(out))
 }
 

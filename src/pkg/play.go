@@ -12,26 +12,28 @@ func init() {
 }
 
 func Play(args []string) (resp string, err os.Error) {
-	if len(args)>0{
+	if len(args) > 0 {
 		err = os.NewError("play does not take arguments yet")
 		return
 	}
 
-	if player.playing{
+	if player.playing {
 		resp = "already playing"
 	}
-	
-	if len(player.playlist) == 0{
+
+	if len(player.playlist) == 0 {
 		err = os.NewError("playlist empty")
 		return
 	}
 
-	if player.current == -1{
+	if player.current == -1 {
 		player.current = 0
 	}
-			go func() {
-				player.backend.Play(player.playlist[player.current].file)
-				player.playedChan <- 1
-			}()
+	player.playing = true
+
+	go func() {
+		player.backend.Play(player.playlist[player.current].file)
+		player.playedChan <- 1
+	}()
 	return
 }

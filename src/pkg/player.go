@@ -36,7 +36,7 @@ func (p *Player) Init() {
 type Player struct {
 	library    *Lib // the player's library
 	playlist   ItemArray
-	current  int // current track
+	current    int // current track
 	playing    bool
 	backend    Backend
 	callChan   chan Call // calls ("play", ...) are sent here
