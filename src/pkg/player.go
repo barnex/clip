@@ -20,7 +20,7 @@ func Init() Player {
 
 func (p *Player) Init() {
 	// TODO: no good for client mode!
-	Debug("player initialized")
+	//Debug("player initialized")
 	p.library = NewLib()
 	p.playlist = ItemArray([]*Item{})
 	p.playing = false
