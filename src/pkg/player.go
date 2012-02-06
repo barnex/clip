@@ -12,13 +12,14 @@ import (
 var player Player = Init()
 
 
-func Init() Player{
+func Init() Player {
 	var player Player
 	player.Init()
 	return player
 }
 
 func (p *Player) Init() {
+	// TODO: no good for client mode!
 	Debug("player initialized")
 	p.library = NewLib()
 	p.playlist = ItemArray([]*Item{})
@@ -31,8 +32,8 @@ func (p *Player) Init() {
 
 // Here the player state is stored.
 type Player struct {
-	library    *Lib               // the player's library
-	playlist  ItemArray
+	library    *Lib // the player's library
+	playlist   ItemArray
 	command    map[string]Command // the player's commands
 	port       string             // default RPC port
 	backend    Backend
@@ -46,7 +47,7 @@ type Player struct {
 type Command func([]string) (string, os.Error)
 
 
-func MainDaemon(args []string){
+func MainDaemon(args []string) {
 	player.MainDaemon(args)
 }
 

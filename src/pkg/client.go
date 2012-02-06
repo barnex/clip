@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 	"exec"
+	"strings"
 )
 
 // Main loop for "client" mode (the normal mode).
@@ -18,7 +19,8 @@ func MainClient(args []string) {
 	var resp string
 	err2 := client.Call("PlayerRPC.Call", args, &resp)
 	Check(err2)
-	fmt.Print(resp)
+	resp = strings.Trim(resp, "\n")
+	fmt.Println(resp)
 }
 
 // Connect to the clip daemon for RPC communication.

@@ -17,4 +17,3 @@ type Item struct {
 func NewFile(file string) *Item {
 	return &Item{tag: Fuzzy(path.Base(file)), file: file}
 }
-
