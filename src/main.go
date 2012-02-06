@@ -17,14 +17,13 @@ var (
 func main() {
 	flag.Parse()
 
-	if *flag_complete {
-		clip.AutoComplete(flag.Args())
-		return
-	}
+	//	if *flag_complete {
+	//		clip.AutoComplete(flag.Args())
+	//		return
+	//	}
 
 	if *flag_daemon {
-		clip.MainDaemon(flag.Args())
-		return
+		clip.NewPlayer().Daemon()
 	}
 
 	clip.MainClient(flag.Args())

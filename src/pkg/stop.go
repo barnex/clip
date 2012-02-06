@@ -1,21 +1,8 @@
 package clip
 
-// This file implements the "pause" command
+// This file implements the "stop" command
 
-import (
-	"os"
-)
-
-// Register the command
-func init() {
-	player.command["stop"] = Stop
-}
-
-func Stop(args []string) (resp string, err os.Error) {
-	if len(args) > 0 {
-		err = os.NewError("stop does not take arguments")
-		return
-	}
+func (player *Player) Stop() (resp, err string) {
 
 	if !player.playing {
 		resp = "Already stopped."

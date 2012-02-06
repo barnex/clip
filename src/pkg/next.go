@@ -2,24 +2,16 @@ package clip
 
 // This file implements the "next" command
 
-import (
-	"os"
-)
 
-// Register the command
-func init() {
-	player.command["next"] = Next
-}
-
-func Next(args []string) (resp string, err os.Error) {
+func (player *Player) Next(args []string) (resp, err string) {
 	if len(args) > 0 {
-		err = os.NewError("next does not take arguments yet")
+		err = "next does not take arguments yet"
 		// TODO: next album, next artist, ...
 		return
 	}
 
 	if len(player.playlist) == 0 {
-		err = os.NewError("playlist empty")
+		err = "playlist empty"
 		return
 	}
 

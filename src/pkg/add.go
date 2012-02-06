@@ -3,18 +3,12 @@ package clip
 // This file implements the "add" command
 
 import (
-	"os"
 	"fmt"
 )
 
-// Register the command
-func init() {
-	player.command["add"] = Add
-}
-
-func Add(args []string) (resp string, err os.Error) {
+func (player *Player) Add(args []string) (resp, err string) {
 	if len(args) == 0 {
-		err = os.NewError("nothing specified, nothing added")
+		err = ("nothing specified, nothing added")
 		return
 	}
 
@@ -36,7 +30,7 @@ func Add(args []string) (resp string, err os.Error) {
 	}
 
 	if notfound > 0 {
-		err = os.NewError(errstr)
+		err = errstr
 	}
 	if found > 0 {
 		resp = fmt.Sprint("added ", found, " files to playlist")

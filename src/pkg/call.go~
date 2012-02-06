@@ -3,6 +3,7 @@ package clip
 
 import (
 	"os"
+	"reflect"
 )
 
 
@@ -24,7 +25,7 @@ func NewCall(args []string) Call {
 
 
 // Parse and execute call, return response.
-func (call *Call) Exec() Resp {
+func (call *Call) Exec() (resp Resp) {
 	args := call.Args
 
 	if len(args) == 0 {
@@ -33,12 +34,13 @@ func (call *Call) Exec() Resp {
 	cmd := args[0]
 	args = args[1:]
 	Debug("player.call", cmd, args)
-	f, ok := player.command[cmd]
-	var resp Resp
-	if !ok {
-		resp.Err = os.NewError("no such command: " + cmd)
-	} else {
-		resp.Resp, resp.Err = f(args)
-	}
-	return resp
+
+	p := reflect.ValueOf(player)
+	m := p.MethodByName(cmd)
+	Debug("MethodByName", cmd, ":", m)
+	r := m.Call([]reflect.Value{reflect.ValueOf(args)})
+	resp.Resp = r[0].Interface().(string)
+	resp.Err = os.NewError(r[1].Interface().(string))
+
+	return
 }
