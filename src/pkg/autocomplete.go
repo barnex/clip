@@ -10,7 +10,7 @@ import (
 
 // Register the command
 func init() {
-	command["complete"] = Complete
+	player.command["complete"] = Complete
 }
 
 func Complete(args []string) (resp string, err os.Error) {
@@ -47,7 +47,7 @@ func AutoComplete(args []string) {
 // Auto-complete function for player commands like 
 //	add ls play ...
 func completeCommands(prefix string) {
-	for cmd, _ := range command {
+	for cmd, _ := range player.command {
 		if strings.HasPrefix(cmd, prefix) {
 			fmt.Print(cmd, " ")
 		}

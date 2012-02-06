@@ -9,12 +9,12 @@ import (
 
 // Register the command.
 func init() {
-	command["ls"] = Ls
+	player.command["ls"] = Ls
 }
 
 func Ls(args []string) (resp string, err os.Error) {
 	buf := bytes.NewBuffer([]byte{})
-	library.WriteTo(buf)
+	player.library.WriteTo(buf)
 	resp = buf.String()
 	return
 }

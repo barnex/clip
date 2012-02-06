@@ -12,16 +12,30 @@ import (
 	"http"
 )
 
+var player Player
+
+func init(){
+	player.Init()
+}
+
+func(p *Player)Init(){
+p.library    = NewLib()                 
+p.command    = make(map[string]Command) 
+p.port       = ":25274"                 
+p.backend    = new(MPlayer)
+p.callChan   = make(chan Call) 
+p.playedChan = make(chan int)
+}
 
 // Here the player state is stored.
-var (
-	library    *Lib               = NewLib()                 // the player's library
-	command    map[string]Command = make(map[string]Command) // the player's commands
-	port       string             = ":25274"                 // default RPC port
-	backend    Backend            = new(MPlayer)
-	callChan   chan Call          = make(chan Call) // calls ("play", ...) are sent here
-	playedChan chan int           = make(chan int)
-)
+type Player struct {
+	library    *Lib                         // the player's library
+	command    map[string]Command  // the player's commands
+	port       string                       // default RPC port
+	backend    Backend            
+	callChan   chan Call           // calls ("play", ...) are sent here
+	playedChan chan int           
+}
 
 
 // A command (e.g. "add") takes string arguments provided by the user
@@ -30,12 +44,12 @@ type Command func([]string) (string, os.Error)
 
 
 // Main loop for daemon mode
-func MainDaemon(args []string) {
-	go serveRPC()
+func (p*Player)MainDaemon(args []string) {
+	go p.serveRPC()
 	// event loop
 	for {
 		select {
-		case call := <-callChan:
+		case call := <-p.callChan:
 			resp := call.Exec()
 			call.respChan <- resp
 		}
@@ -44,29 +58,29 @@ func MainDaemon(args []string) {
 
 
 // Start serving RPC calls from client instances.
-func serveRPC() {
-	rpc.Register(&PlayerRPC{})
+func (p*Player)serveRPC() {
+	rpc.Register(PlayerRPC(player))
 	rpc.HandleHTTP()
-	conn, err := net.Listen("tcp", port)
+	conn, err := net.Listen("tcp", p.port)
 	if err != nil {
 		Err("listen error:", err)
 	}
-	Debug("Listening on port " + port)
+	Debug("Listening on port " + p.port)
 	http.Serve(conn, nil)
 	//TODO: log errors.
 }
 
 
 // Dummy type to define RPC methods on.
-type PlayerRPC struct{}
-
+type PlayerRPC Player
 
 // RPC-exported function used for normal operation mode.
 // The command-line arguments are passed (e.g. "play jazz")
 // and a response to the user is returned in *resp.
-func (d *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
+func (rpc *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
+	p := (*Player)(rpc)	
 	call := NewCall(args)       // wrap args in Call struct
-	callChan <- call            // send to event loop for execution
+	p.callChan <- call            // send to event loop for execution
 	callResp := <-call.respChan // wait for response
 	*resp = callResp.Resp       // set return value
 	return callResp.Err

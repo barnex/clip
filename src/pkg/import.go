@@ -8,7 +8,7 @@ import (
 
 // Register the command
 func init() {
-	command["import"] = Import
+	player.command["import"] = Import
 }
 
 func Import(args []string) (resp string, err os.Error) {
@@ -17,7 +17,7 @@ func Import(args []string) (resp string, err os.Error) {
 		return
 	}
 	for _, arg := range args {
-		library.Import(arg)
+		player.library.Import(arg)
 	}
 	return
 }

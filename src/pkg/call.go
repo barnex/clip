@@ -33,7 +33,7 @@ func (call *Call) Exec() Resp {
 	cmd := args[0]
 	args = args[1:]
 	Debug("player.call", cmd, args)
-	f, ok := command[cmd]
+	f, ok := player.command[cmd]
 	var resp Resp
 	if !ok {
 		resp.Err = os.NewError("no such command: " + cmd)
