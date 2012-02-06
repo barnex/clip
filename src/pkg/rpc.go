@@ -9,6 +9,7 @@ import (
 	"net"
 	"http"
 	"reflect"
+	"strings"
 )
 
 // Start serving RPC calls from client instances.
@@ -36,7 +37,8 @@ func (rpc *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
 
 	player := (*Player)(rpc)
 
-	cmd := args[0]
+	// utf8.NewString(...)
+	cmd := unicode.ToUpper(args[0]) + args[0][1:]
 	args = args[1:]
 
 	p := reflect.ValueOf(player)
