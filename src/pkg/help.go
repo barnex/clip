@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-func (player *Player) Help() (resp, err string) {
-	p := reflect.ValueOf(player)
+func (api API) Help() (resp, err string) {
+	p := reflect.ValueOf(api)
 	for i := 0; i < p.Type().NumMethod(); i++ {
 		m := p.Type().Method(i)
 		if isCommand(m){
@@ -20,5 +20,5 @@ func (player *Player) Help() (resp, err string) {
 }
 
 func isCommand(m reflect.Method)bool{
-		return unicode.IsUpper(int(m.Name[0])) && m.Type.NumOut() == 2
+		return unicode.IsUpper(int(m.Name[0])) //&& m.Type.NumOut() == 2
 }

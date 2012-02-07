@@ -19,7 +19,7 @@ const port = ":2527"
 func MainClient(args []string) {
 	client := dialDaemon()
 	var resp string
-	err := client.Call("PlayerRPC.Call", args, &resp)
+	err := client.Call("RPC.Call", args, &resp)
 	Check(err)
 	resp = strings.Trim(resp, "\n")
 	fmt.Println(resp)
