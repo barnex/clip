@@ -4,7 +4,7 @@ package clip
 
 func (api API) Import(args []string) (resp, err string) {
 	for _, arg := range args {
-		api.player.library.Import(arg)
+		api.player.Import(arg)
 	}
 	return
 }

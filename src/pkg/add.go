@@ -16,7 +16,7 @@ func (player *Player) Add(args []string) (resp, err string) {
 	notfound := 0
 	errstr := "not found:"
 	for _, arg := range args {
-		items := player.library.Find(arg)
+		items := player.Find(arg)
 
 		// TODO: item may be directory, add recursively
 		if len(items) == 0 {

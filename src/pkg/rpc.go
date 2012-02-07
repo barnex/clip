@@ -15,7 +15,7 @@ import (
 
 // Start serving RPC calls from client instances.
 func (player *Player) serveRPC() {
-	rpc.Register(player.RPC)
+	rpc.Register(player.RPC())
 	rpc.HandleHTTP()
 	conn, err := net.Listen("tcp", port)
 	if err != nil {
@@ -48,7 +48,7 @@ func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 
 	// resolve the command using reflection
 	player := rpc.player
-	p := reflect.ValueOf(player.API)
+	p := reflect.ValueOf(player.API())
 	m := p.MethodByName(Cmd)
 	Debug("MethodByName", Cmd, ":", m)
 	if m.Kind() == reflect.Invalid {

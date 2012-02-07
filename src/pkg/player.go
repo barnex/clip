@@ -10,15 +10,21 @@ import (
 )
 
 type Player struct {
-	library  *Lib // the player's library
+	*Lib // the player's library
 	playlist ItemArray
 	current  int // current track
 	playing  bool
 	backend  Backend
 	port     string // default RPC port
 	sync.Mutex
-	API
-	RPC
+}
+
+func(p*Player)API()API{
+	return API{p}
+}
+
+func(p*Player)RPC()RPC{
+	return RPC{p}
 }
 
 func NewPlayer() *Player {
@@ -29,14 +35,12 @@ func NewPlayer() *Player {
 
 func (p *Player) init() {
 	Debug("player initialized")
-	p.library = NewLib()
+	p.Lib = NewLib()
 	p.playlist = ItemArray([]*Item{})
 	p.playing = false
 	p.current = -1
 	p.port = ":25274"
 	p.backend = new(MPlayer)
-	p.API = API{p}
-	p.RPC = RPC{p}
 }
 
 // Main loop for daemon mode
