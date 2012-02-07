@@ -1,7 +1,7 @@
 package clip
 
 // This file implements the Remote Procedure Call between
-// the clip daemon and front-ends
+// the clip daemon and client front-end
 
 import (
 	"os"
@@ -9,7 +9,7 @@ import (
 	"net"
 	"http"
 	"reflect"
-	"strings"
+	"unicode"
 )
 
 // Start serving RPC calls from client instances.
@@ -25,7 +25,7 @@ func (player *Player) serveRPC() {
 	//TODO: log errors.
 }
 
-// Dummy type to define RPC methods on.
+// Aliased type to define RPC methods on.
 type PlayerRPC Player
 
 
@@ -37,9 +37,11 @@ func (rpc *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
 
 	player := (*Player)(rpc)
 
-	// utf8.NewString(...)
-	cmd := unicode.ToUpper(args[0]) + args[0][1:]
+	cmd := args[0]
 	args = args[1:]
+	// convert first character to uppercase
+	first := unicode.ToUpper(int(cmd[0]))
+	cmd = string(first) + cmd[1:]
 
 	p := reflect.ValueOf(player)
 	m := p.MethodByName(cmd)
