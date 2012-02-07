@@ -4,6 +4,7 @@ package clip
 // Invoked whenever the user types executes "clip".
 
 import (
+	"os"
 	"rpc"
 	"fmt"
 	"time"
@@ -20,11 +21,19 @@ func MainClient(args []string) {
 	client := dialDaemon()
 	var resp string
 	err := client.Call("RPC.Call", args, &resp)
-	Check(err)
-	resp = strings.Trim(resp, "\n")
-	if resp != "" {
-		fmt.Println(resp)
+	if err != nil{
+		fmt.Fprint(os.Stderr, cleanup(err.String()))
 	}
+	fmt.Print(cleanup(resp))
+}
+
+// cleanup newlines so string can be printed to stdout without redundant/missing newlines
+func cleanup(str string)string{
+	str = strings.Trim(str, "\n")
+	if str != "" {
+		return str + "\n"
+	}
+	return str
 }
 
 // Connect to the clip daemon for RPC communication.

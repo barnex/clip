@@ -68,13 +68,13 @@ func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 		return
 	case 0:
 		if len(args) > 0 {
-			err = os.NewError(fmt.Sprint(cmd, " does not take arugments"))
+			err = os.NewError(fmt.Sprint(cmd, ": does not take arugments"))
 			return
 		}
 		callArgs = []reflect.Value{}
 	case 1:
 		if len(args) == 0 {
-			err = os.NewError(fmt.Sprint(cmd, " needs an argument"))
+			err = os.NewError(fmt.Sprint(cmd, ": need an argument"))
 			return
 		}
 		callArgs = []reflect.Value{reflect.ValueOf(args)}
