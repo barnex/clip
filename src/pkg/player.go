@@ -19,6 +19,7 @@ type Player struct {
 	sync.Mutex
 }
 
+// Constructor
 func NewPlayer() *Player {
 	p := new(Player)
 	p.init()
