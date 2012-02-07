@@ -16,12 +16,18 @@ func init(){
 
 // report all methods on API, using reflection
 func (api API) Help() (resp, err string) {
+	resp = `usage: clip <command> [<args>]
+
+The available commands are:`
 	p := reflect.ValueOf(api)
 	for i := 0; i < p.Type().NumMethod(); i++ {
 		m := p.Type().Method(i)
 		name := strings.ToLower(m.Name)
-		resp += "\t" + name + "\t" + help[name] + "\n"
+		resp += "\n   " + fill(name) + " " + help[name]
 	}
 	return
 }
 
+func fill(str string)string{
+	return str + "          "[:10-len(str)]
+}
