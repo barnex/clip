@@ -10,7 +10,7 @@ import (
 )
 
 type Player struct {
-	*Lib // the player's library
+	Lib // the player's library
 	playlist ItemArray
 	current  int // current track
 	playing  bool
@@ -19,23 +19,26 @@ type Player struct {
 	sync.Mutex
 }
 
-func(p*Player)API()API{
-	return API{p}
-}
-
-func(p*Player)RPC()RPC{
-	return RPC{p}
-}
-
 func NewPlayer() *Player {
 	p := new(Player)
 	p.init()
 	return p
 }
 
+// Wraps the player in an API to expose methods available to the user.
+func(p*Player)API()API{
+	return API{p}
+}
+
+// Wraps the player in an RPC to expose methods available to the RPC server.
+func(p*Player)RPC()RPC{
+	return RPC{p}
+}
+
+
 func (p *Player) init() {
 	Debug("player initialized")
-	p.Lib = NewLib()
+	(&p.Lib).init()
 	p.playlist = ItemArray([]*Item{})
 	p.playing = false
 	p.current = -1

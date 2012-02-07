@@ -16,7 +16,14 @@ type Lib struct {
 
 // Constructs a new Library
 func NewLib() *Lib {
-	return &Lib{ItemArray([]*Item{})}
+	lib := new(Lib)
+	lib.init()
+	return lib
+}
+
+// Initializes the library
+func (lib*Lib)init(){
+	lib.items =  ItemArray([]*Item{})
 }
 
 // Recursively import directory or file into library.
