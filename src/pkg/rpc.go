@@ -15,7 +15,7 @@ import (
 
 // Start serving RPC calls from client instances.
 func (player *Player) serveRPC() {
-	rpc.Register((*RPC)(player))
+	rpc.Register(player.RPC)
 	rpc.HandleHTTP()
 	conn, err := net.Listen("tcp", port)
 	if err != nil {
@@ -27,15 +27,17 @@ func (player *Player) serveRPC() {
 }
 
 // Aliased type to define RPC methods on.
-type RPC Player
+type RPC struct{
+	player *Player
+}
 
 // RPC-exported function used for normal operation mode.
 // The command-line arguments are passed (e.g. "play jazz")
 // and a response to the user is returned in *resp.
-func (rpc *RPC) Call(args []string, resp *string) (err os.Error) {
+func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 	Debug("PlayerRPC.Call", args)
 
-	player := (*Player)(rpc)
+	player := rpc.player
 
 	cmd := args[0]  // first arg is command (e.g.: "play")
 	args = args[1:] // rest are arguments (e.g.: "jazz")

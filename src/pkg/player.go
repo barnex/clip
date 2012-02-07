@@ -18,6 +18,7 @@ type Player struct {
 	port     string // default RPC port
 	sync.Mutex
 	API
+	RPC
 }
 
 func NewPlayer() *Player {
@@ -35,6 +36,7 @@ func (p *Player) init() {
 	p.port = ":25274"
 	p.backend = new(MPlayer)
 	p.API = API{p}
+	p.RPC = RPC{p}
 }
 
 // Main loop for daemon mode
