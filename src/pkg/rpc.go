@@ -39,7 +39,9 @@ type RPC struct {
 func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 	Debug("PlayerRPC.Call", args)
 
-	if len(args) == 0{args = []string{"help"}}
+	if len(args) == 0 {
+		args = []string{"help"}
+	}
 	cmd := args[0]  // first arg is command (e.g.: "play")
 	args = args[1:] // rest are arguments (e.g.: "jazz")
 

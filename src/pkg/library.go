@@ -22,8 +22,8 @@ func NewLib() *Lib {
 }
 
 // Initializes the library
-func (lib*Lib)init(){
-	lib.items =  ItemArray([]*Item{})
+func (lib *Lib) init() {
+	lib.items = ItemArray([]*Item{})
 }
 
 // Recursively import directory or file into library.

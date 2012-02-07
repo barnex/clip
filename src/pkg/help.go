@@ -10,7 +10,7 @@ import (
 // Store help for commands here
 var help map[string]string = make(map[string]string)
 
-func init(){
+func init() {
 	help["help"] = `Display this help message`
 }
 
@@ -28,6 +28,7 @@ The available commands are:`
 	return
 }
 
-func fill(str string)string{
+// paste some spaces after the string for column alignment
+func fill(str string) string {
 	return str + "          "[:10-len(str)]
 }

@@ -2,7 +2,7 @@ package clip
 
 // This file implements the "import" command
 
-func init(){
+func init() {
 	help["import"] = `Import music directory into library`
 }
 

@@ -10,7 +10,7 @@ import (
 )
 
 type Player struct {
-	Lib // the player's library
+	Lib      // the player's library
 	playlist ItemArray
 	current  int // current track
 	playing  bool
@@ -27,15 +27,14 @@ func NewPlayer() *Player {
 }
 
 // Wraps the player in an API to expose methods available to the user.
-func(p*Player)API()API{
+func (p *Player) API() API {
 	return API{p}
 }
 
 // Wraps the player in an RPC to expose methods available to the RPC server.
-func(p*Player)RPC()RPC{
+func (p *Player) RPC() RPC {
 	return RPC{p}
 }
-
 
 func (p *Player) init() {
 	Debug("player initialized")
