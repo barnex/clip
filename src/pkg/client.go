@@ -2,6 +2,9 @@ package clip
 
 // This file implements the client main function.
 // Invoked whenever the user types executes "clip".
+// The client merely forwards the CLI arguments
+// to the clip daemon and returns the response to
+// the user.
 
 import (
 	"os"
@@ -12,6 +15,7 @@ import (
 	"strings"
 )
 
+// RPC port
 const port = ":2527"
 
 // Main loop for "client" mode (the normal mode).
@@ -21,14 +25,14 @@ func MainClient(args []string) {
 	client := dialDaemon()
 	var resp string
 	err := client.Call("RPC.Call", args, &resp)
-	if err != nil{
+	if err != nil {
 		fmt.Fprint(os.Stderr, cleanup(err.String()))
 	}
 	fmt.Print(cleanup(resp))
 }
 
 // cleanup newlines so string can be printed to stdout without redundant/missing newlines
-func cleanup(str string)string{
+func cleanup(str string) string {
 	str = strings.Trim(str, "\n")
 	if str != "" {
 		return str + "\n"

@@ -2,11 +2,9 @@ package clip
 
 // This file implements the "show" command
 
-import (
-)
+import ()
 
-
-func init(){
+func init() {
 	help["show"] = `Show various types of objects`
 }
 
@@ -21,6 +19,13 @@ func (api API) Show(args []string) (resp, err string) {
 	return
 }
 
-func(player *Player)show(str string) (resp string, ok bool){
+func (player *Player) show(str string) (resp string, ok bool) {
+	switch str {
+	default:
+		return
+	case "library":
+		resp = player.Lib.String()
+	}
+	ok = true
 	return
 }

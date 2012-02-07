@@ -6,6 +6,7 @@ import (
 	"os"
 	"io"
 	"fmt"
+	"bytes"
 	"strings"
 )
 
@@ -63,6 +64,12 @@ func (lib *Lib) WriteTo(out io.Writer) (n int, err os.Error) {
 		n += N
 	}
 	return
+}
+
+func (lib *Lib) String() string {
+	buf := bytes.NewBuffer([]byte{})
+	lib.WriteTo(buf)
+	return string(buf.Bytes())
 }
 
 // Find items based on tag
