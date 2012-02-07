@@ -15,4 +15,3 @@ func (api API) Help() (resp, err string) {
 	}
 	return
 }
-

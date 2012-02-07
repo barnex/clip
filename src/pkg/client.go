@@ -22,7 +22,9 @@ func MainClient(args []string) {
 	err := client.Call("RPC.Call", args, &resp)
 	Check(err)
 	resp = strings.Trim(resp, "\n")
-	fmt.Println(resp)
+	if resp != "" {
+		fmt.Println(resp)
+	}
 }
 
 // Connect to the clip daemon for RPC communication.
