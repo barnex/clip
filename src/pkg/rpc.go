@@ -5,6 +5,7 @@ package clip
 
 import (
 	"os"
+	"fmt"
 	"rpc"
 	"net"
 	"http"
@@ -28,7 +29,6 @@ func (player *Player) serveRPC() {
 // Aliased type to define RPC methods on.
 type PlayerRPC Player
 
-
 // RPC-exported function used for normal operation mode.
 // The command-line arguments are passed (e.g. "play jazz")
 // and a response to the user is returned in *resp.
@@ -37,23 +37,50 @@ func (rpc *PlayerRPC) Call(args []string, resp *string) (err os.Error) {
 
 	player := (*Player)(rpc)
 
-	cmd := args[0]
-	args = args[1:]
+	cmd := args[0]  // first arg is command (e.g.: "play")
+	args = args[1:] // rest are arguments (e.g.: "jazz")
+
 	// convert first character to uppercase
 	first := unicode.ToUpper(int(cmd[0]))
-	cmd = string(first) + cmd[1:]
+	Cmd := string(first) + cmd[1:] // (e.g.: Play)
 
+	// resolve the command using reflection
 	p := reflect.ValueOf(player)
-	m := p.MethodByName(cmd)
-	Debug("MethodByName", cmd, ":", m)
-	if m.Kind() == reflect.Invalid{
+	m := p.MethodByName(Cmd)
+	Debug("MethodByName", Cmd, ":", m)
+	if m.Kind() == reflect.Invalid {
 		err = os.NewError("clip: '" + cmd + "' is not a clip command. See clip help.")
 		return
 	}
-	r := m.Call([]reflect.Value{reflect.ValueOf(args)})
+
+	// set up method arguments
+	ins := m.Type().NumIn()
+	var callArgs []reflect.Value
+	switch ins {
+	default:
+		err = os.NewError(fmt.Sprint("Bug: wrong number of ins: ", ins))
+		return
+	case 0:
+		if len(args) > 0 {
+			err = os.NewError(fmt.Sprint(cmd, " does not take arugments"))
+			return
+		}
+		callArgs = []reflect.Value{}
+	case 1:
+		if len(args) == 0 {
+			err = os.NewError(fmt.Sprint(cmd, " needs an argument"))
+			return
+		}
+		callArgs = []reflect.Value{reflect.ValueOf(args)}
+	}
+
+	// call the method
+	r := m.Call(callArgs)
 	*resp = r[0].Interface().(string)   // by convention, response is 1st return value
 	errStr := r[1].Interface().(string) // by convention, error is 2nd return value
-	if errStr != ""{err = os.NewError(errStr)}
+	if errStr != "" {
+		err = os.NewError(errStr)
+	}
 
 	return
 }

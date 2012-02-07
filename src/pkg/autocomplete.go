@@ -8,12 +8,10 @@ import (
 //"strings"
 )
 
-
 func (player *Player) Complete(args []string) (resp, err string) {
 	panic("please implement me")
 	return
 }
-
 
 // Used by "clip -c", invoked by bash completion.
 // args:

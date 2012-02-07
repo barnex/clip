@@ -9,7 +9,6 @@ import (
 	"sync"
 )
 
-
 type Player struct {
 	library  *Lib // the player's library
 	playlist ItemArray

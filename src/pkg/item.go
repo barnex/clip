@@ -13,7 +13,6 @@ type Item struct {
 	// []*Item
 }
 
-
 func NewFile(file string) *Item {
 	return &Item{tag: Fuzzy(path.Base(file)), file: file}
 }

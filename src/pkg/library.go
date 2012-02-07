@@ -46,7 +46,6 @@ func (lib *Lib) Import(arg string) {
 	}
 }
 
-
 // Print the entire library recursively
 func (lib *Lib) WriteTo(out io.Writer) (n int, err os.Error) {
 	for _, item := range lib.items {
