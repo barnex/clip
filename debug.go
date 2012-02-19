@@ -3,8 +3,8 @@ package main
 // This file implements log and debug functions
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
 // Print debug message to stderr.

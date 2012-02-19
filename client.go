@@ -7,12 +7,12 @@ package main
 // the user.
 
 import (
-	"os"
-	"net/rpc"
 	"fmt"
-	"time"
+	"net/rpc"
+	"os"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 // RPC port
@@ -74,4 +74,3 @@ func forkDaemon() {
 	err = cmd.Start()
 	Check(err)
 }
-

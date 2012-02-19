@@ -12,7 +12,7 @@ import (
 
 // Stores a music Library
 type Lib struct {
-	tracks []*Track
+	clips []*Clip
 }
 
 // Constructs a new Library
@@ -24,7 +24,7 @@ func NewLib() *Lib {
 
 // Initializes the library
 func (lib *Lib) init() {
-	lib.tracks = []*Track{}
+	lib.clips = []*Clip{}
 }
 
 // Recursively import directory or file into library.
@@ -49,15 +49,15 @@ func (lib *Lib) Import(arg string) {
 	}
 
 	if !info.IsDir() {
-		lib.tracks = append(lib.tracks, NewTrack(arg))
+		lib.clips = append(lib.clips, NewClip(arg))
 		return
 	}
 }
 
 // Print the entire library recursively
 func (lib *Lib) WriteTo(out io.Writer) (n int, err error) {
-	for _, track := range lib.tracks {
-		N, ERR := fmt.Fprintln(out, track)
+	for _, clip := range lib.clips {
+		N, ERR := fmt.Fprintln(out, clip)
 		if ERR != nil {
 			err = ERR
 		}
@@ -75,9 +75,9 @@ func (lib *Lib) String() string {
 // Find items based on tag
 //func (lib *Lib) Find(tag string) (items []*Item) {
 //	tag = Fuzzy(tag)
-//	tracks = []*Item{}
-//	for _, track := range lib.tracks {
-//		if track.tag == tag {
+//	clips = []*Item{}
+//	for _, clip := range lib.clips {
+//		if clip.tag == tag {
 //			items = append(items, item)
 //			Debug("find", tag, ":", item.file)
 //		}
