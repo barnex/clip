@@ -1,4 +1,4 @@
-package clip
+package main
 
 // This file implements the client main function.
 // Invoked whenever the user types executes "clip".
@@ -8,10 +8,10 @@ package clip
 
 import (
 	"os"
-	"rpc"
+	"net/rpc"
 	"fmt"
 	"time"
-	"exec"
+	"os/exec"
 	"strings"
 )
 
@@ -26,7 +26,7 @@ func MainClient(args []string) {
 	var resp string
 	err := client.Call("RPC.Call", args, &resp)
 	if err != nil {
-		fmt.Fprint(os.Stderr, cleanup(err.String()))
+		fmt.Fprint(os.Stderr, cleanup(err.Error()))
 	}
 	fmt.Print(cleanup(resp))
 }

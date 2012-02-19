@@ -1,11 +1,10 @@
-package clip
+package main
 
 // This file uses mplayer as a playback back-end.
 
 import (
-	"exec"
+	"os/exec"
 	"log"
-	"os"
 	//"fmt"
 )
 
@@ -19,7 +18,7 @@ func (m *MPlayer) Play(file string) {
 
 	// If the command was killed with signal 9,
 	// the player was just stopped, so we don't crash
-	if waitmsg, ok := err.(*os.Waitmsg); ok {
+	if waitmsg, ok := err.(*exec.ExitError); ok {
 		if waitmsg.WaitStatus != 9 {
 			Check(err)
 		}

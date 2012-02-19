@@ -1,4 +1,4 @@
-package clip
+package main
 
 // This file provides the player back-end interface.
 

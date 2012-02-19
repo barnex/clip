@@ -1,14 +1,14 @@
-package clip
+package main
 
 // This file implements the Remote Procedure Call between
 // the clip daemon and client front-end
 
 import (
-	"os"
+	"errors"
 	"fmt"
-	"rpc"
 	"net"
-	"http"
+	"net/http"
+	"net/rpc"
 	"reflect"
 	"unicode"
 )
@@ -36,7 +36,7 @@ type RPC struct {
 // and a response to the user is returned in *resp.
 // Here, run-time reflection is used to match the user command
 // to a method on the API type.
-func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
+func (rpc RPC) Call(args []string, resp *string) (err error) {
 	Debug("PlayerRPC.Call", args)
 
 	if len(args) == 0 {
@@ -46,7 +46,7 @@ func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 	args = args[1:] // rest are arguments (e.g.: "jazz")
 
 	// convert first character to uppercase
-	first := unicode.ToUpper(int(cmd[0]))
+	first := unicode.ToUpper(rune(cmd[0]))
 	Cmd := string(first) + cmd[1:] // (e.g.: Play)
 
 	// resolve the command using reflection
@@ -55,7 +55,7 @@ func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 	m := p.MethodByName(Cmd)
 	Debug("MethodByName", Cmd, ":", m)
 	if m.Kind() == reflect.Invalid {
-		err = os.NewError("clip: '" + cmd + "' is not a clip command. See clip help.")
+		err = errors.New("clip: '" + cmd + "' is not a clip command. See clip help.")
 		return
 	}
 
@@ -64,17 +64,17 @@ func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 	var callArgs []reflect.Value
 	switch ins {
 	default:
-		err = os.NewError(fmt.Sprint("Bug: wrong number of ins: ", ins))
+		err = errors.New(fmt.Sprint("Bug: wrong number of ins: ", ins))
 		return
 	case 0:
 		if len(args) > 0 {
-			err = os.NewError(fmt.Sprint(cmd, ": does not take arugments"))
+			err = errors.New(fmt.Sprint(cmd, ": does not take arugments"))
 			return
 		}
 		callArgs = []reflect.Value{}
 	case 1:
 		if len(args) == 0 {
-			err = os.NewError(fmt.Sprint(cmd, ": need an argument"))
+			err = errors.New(fmt.Sprint(cmd, ": need an argument"))
 			return
 		}
 		callArgs = []reflect.Value{reflect.ValueOf(args)}
@@ -85,7 +85,7 @@ func (rpc RPC) Call(args []string, resp *string) (err os.Error) {
 	*resp = r[0].Interface().(string)   // by convention, response is 1st return value
 	errStr := r[1].Interface().(string) // by convention, error is 2nd return value
 	if errStr != "" {
-		err = os.NewError(errStr)
+		err = errors.New(errStr)
 	}
 
 	return

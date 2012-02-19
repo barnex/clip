@@ -1,4 +1,4 @@
-package clip
+package main
 
 // This file implements the "play" command
 

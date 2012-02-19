@@ -3,7 +3,6 @@ package main
 // This file implements the CLIP main function
 
 import (
-	"clip"
 	"flag"
 )
 
@@ -23,8 +22,8 @@ func main() {
 	//	}
 
 	if *flag_daemon {
-		clip.NewPlayer().Daemon()
+		NewPlayer().Daemon()
 	}
 
-	clip.MainClient(flag.Args())
+	MainClient(flag.Args())
 }

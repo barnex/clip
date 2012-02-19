@@ -1,12 +1,12 @@
-package clip
+package main
 
 // This file implements the Library data structure.
 
 import (
-	"os"
-	"io"
-	"fmt"
 	"bytes"
+	"fmt"
+	"io"
+	"os"
 	"strings"
 )
 
@@ -37,7 +37,7 @@ func (lib *Lib) Import(arg string) {
 	info, err := os.Stat(arg)
 	Check(err) // TODO: dontcrash
 
-	if info.IsDirectory() {
+	if info.IsDir() {
 		dir, err := os.OpenFile(arg, os.O_RDONLY, 0777)
 		Check(err)
 		files, err2 := dir.Readdirnames(-1)
@@ -48,14 +48,14 @@ func (lib *Lib) Import(arg string) {
 		return
 	}
 
-	if info.IsRegular() {
+	if !info.IsDir() {
 		lib.items = append(lib.items, NewFile(arg))
 		return
 	}
 }
 
 // Print the entire library recursively
-func (lib *Lib) WriteTo(out io.Writer) (n int, err os.Error) {
+func (lib *Lib) WriteTo(out io.Writer) (n int, err error) {
 	for _, item := range lib.items {
 		N, ERR := fmt.Fprintln(out, item)
 		if ERR != nil {

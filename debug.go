@@ -1,4 +1,4 @@
-package clip
+package main
 
 // This file implements log and debug functions
 
@@ -20,7 +20,7 @@ func Err(msg ...interface{}) {
 
 // Check for error.
 // If err != nil, print it and exit.
-func Check(err os.Error) {
+func Check(err error) {
 	if err != nil {
 		panic(err)
 	}

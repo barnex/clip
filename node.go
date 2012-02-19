@@ -1,11 +1,10 @@
-package clip
+package main
 
 // This file implements the Nodes of a filesystem tree.
 
 import (
 	"fmt"
 	"io"
-	"os"
 )
 
 // Node in the Library's file tree.
@@ -41,7 +40,7 @@ func (n *Node) String() string {
 }
 
 // Write full path to out.
-func (this *Node) WriteTo(out io.Writer) (n int, err os.Error) {
+func (this *Node) WriteTo(out io.Writer) (n int, err error) {
 	n, err = fmt.Fprintln(out, this)
 	return
 }
