@@ -2,6 +2,7 @@ package main
 
 import (
 	"path"
+	"strings"
 	"unicode"
 )
 
@@ -31,10 +32,10 @@ func NewClip(file string) *Clip {
 		}
 		i++
 	}
-	Debug("clip.tags[TAG_TRACK] =",base[:i])
 	clip.tags[TAG_TRACK] = base[:i]
 
-	//ext := path.Ext(base)
+	ext := path.Ext(base)
+	clip.tags[TAG_TITLE] = strings.Trim(base[i:len(base)-len(ext)], " ")
 
 	return clip
 }
