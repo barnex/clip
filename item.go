@@ -10,9 +10,13 @@ import (
 type Item struct {
 	tag  string
 	file string
-	// []*Item
+	children []*Item
 }
 
 func NewFile(file string) *Item {
 	return &Item{tag: Fuzzy(path.Base(file)), file: file}
+}
+
+func(item *Item)String()string{
+	return item.tag + ":\t" + item.file
 }

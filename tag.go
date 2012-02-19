@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+
 func Fuzzy(file string) string {
 	file = strings.ToLower(file)
 	return file

@@ -6,17 +6,17 @@ package main
 // if none is yet running and sends RPC calls to it.
 
 import (
-	"sync"
+	//"sync"
 )
 
 type Player struct {
 	Lib      // the player's library
-	playlist ItemArray
-	current  int // current track
-	playing  bool
-	backend  Backend
+	//playlist ItemArray
+//	current  int // current track
+//	playing  bool
+//	backend  Backend
 	port     string // default RPC port
-	sync.Mutex
+//	sync.Mutex
 }
 
 // Constructor
@@ -39,11 +39,11 @@ func (p *Player) RPC() RPC {
 func (p *Player) init() {
 	Debug("player initialized")
 	(&p.Lib).init()
-	p.playlist = ItemArray([]*Item{})
-	p.playing = false
-	p.current = -1
-	p.port = ":25274"
-	p.backend = new(MPlayer)
+	//p.playlist = ItemArray([]*Item{})
+	//p.playing = false
+	//p.current = -1
+	//p.port = ":25274"
+	//p.backend = new(MPlayer)
 }
 
 // Main loop for daemon mode

@@ -25,7 +25,3 @@ func Less(i, j string) bool {
 func (arr ItemArray) Swap(i, j int) {
 	arr[i], arr[j] = arr[j], arr[i]
 }
-
-func (item Item) String() string {
-	return item.tag + ":" + item.file
-}
