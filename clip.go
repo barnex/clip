@@ -2,10 +2,10 @@ package main
 
 import (
 	"path"
-	"strings"
 	"unicode"
 )
 
+// Represents a music clip.
 type Clip struct {
 	file string
 	tags [5]string
@@ -22,8 +22,17 @@ const (
 func NewClip(file string) *Clip {
 	clip := new(Clip)
 	clip.file = file
+	clip.initTags()
+	return clip
+}
 
-	// set num tag
+// Rudimentary way to set clip tags based on file name:
+//	artist/album/01_title.ogg
+// TODO: read I3D tags.
+func(clip*Clip)initTags(){
+	// if file starts with number,
+	// use it as TRACK tag.
+	file := clip.file
 	base := path.Base(file)
 	i := 0
 	for _, chr := range base {
@@ -34,10 +43,18 @@ func NewClip(file string) *Clip {
 	}
 	clip.tags[TAG_TRACK] = base[:i]
 
+	// TITLE tag is filename without extension
+	// or leading track number.
 	ext := path.Ext(base)
-	clip.tags[TAG_TITLE] = strings.Trim(base[i:len(base)-len(ext)], " ")
+	clip.tags[TAG_TITLE] = base[i:len(base)-len(ext)]
 
-	return clip
+	// ALBUM tag is clip's parent directory
+	parent1, _ := path.Split(file)
+	clip.tags[TAG_ALBUM] = path.Base(parent1)	
+
+	// ARTIST tag is albums' parent directory
+	parent2, _ := path.Split(parent1[:len(parent1)-1])
+	clip.tags[TAG_ARTIST] = path.Base(parent2)	
 }
 
 func (clip *Clip) File() string {
@@ -72,3 +89,5 @@ func (clip *Clip) String() string {
 		"Artist: " + clip.Artist() + "\n\t" +
 		"Genre : " + clip.Genre() + "\n"
 }
+
+
