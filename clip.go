@@ -2,6 +2,7 @@ package main
 
 import (
 	"path"
+	"strings"
 	"unicode"
 )
 
@@ -11,6 +12,7 @@ type Clip struct {
 	tags [5]string
 }
 
+// Index for Clip.tags
 const (
 	TAG_TRACK = iota
 	TAG_TITLE
@@ -18,6 +20,8 @@ const (
 	TAG_ARTIST
 	TAG_GENRE
 )
+
+var tagStr []string = []string{"Track", "Title", "Album", "Artist", "Genre"}
 
 func NewClip(file string) *Clip {
 	clip := new(Clip)
@@ -29,7 +33,7 @@ func NewClip(file string) *Clip {
 // Rudimentary way to set clip tags based on file name:
 //	artist/album/01_title.ogg
 // TODO: read I3D tags.
-func(clip*Clip)initTags(){
+func (clip *Clip) initTags() {
 	// if file starts with number,
 	// use it as TRACK tag.
 	file := clip.file
@@ -46,48 +50,46 @@ func(clip*Clip)initTags(){
 	// TITLE tag is filename without extension
 	// or leading track number.
 	ext := path.Ext(base)
-	clip.tags[TAG_TITLE] = base[i:len(base)-len(ext)]
+	title := base[i : len(base)-len(ext)]
+	clip.tags[TAG_TITLE] = strings.Trim(title, " ")
 
 	// ALBUM tag is clip's parent directory
 	parent1, _ := path.Split(file)
-	clip.tags[TAG_ALBUM] = path.Base(parent1)	
+	clip.tags[TAG_ALBUM] = path.Base(parent1)
 
 	// ARTIST tag is albums' parent directory
 	parent2, _ := path.Split(parent1[:len(parent1)-1])
-	clip.tags[TAG_ARTIST] = path.Base(parent2)	
+	clip.tags[TAG_ARTIST] = path.Base(parent2)
 }
 
-func (clip *Clip) File() string {
-	return clip.file
-}
-
-func (clip *Clip) Track() string {
-	return clip.tags[TAG_TRACK]
-}
-
-func (clip *Clip) Title() string {
-	return clip.tags[TAG_TITLE]
-}
-
-func (clip *Clip) Album() string {
-	return clip.tags[TAG_ALBUM]
-}
-
-func (clip *Clip) Artist() string {
-	return clip.tags[TAG_ARTIST]
-}
-
-func (clip *Clip) Genre() string {
-	return clip.tags[TAG_GENRE]
-}
+//func (clip *Clip) File() string {
+//	return clip.file
+//}
+//
+//func (clip *Clip) Track() string {
+//	return clip.tags[TAG_TRACK]
+//}
+//
+//func (clip *Clip) Title() string {
+//	return clip.tags[TAG_TITLE]
+//}
+//
+//func (clip *Clip) Album() string {
+//	return clip.tags[TAG_ALBUM]
+//}
+//
+//func (clip *Clip) Artist() string {
+//	return clip.tags[TAG_ARTIST]
+//}
+//
+//func (clip *Clip) Genre() string {
+//	return clip.tags[TAG_GENRE]
+//}
 
 func (clip *Clip) String() string {
-	return clip.file + "\n\t" +
-		"Track : " + clip.Track() + "\n\t" +
-		"Title : " + clip.Title() + "\n\t" +
-		"Album : " + clip.Album() + "\n\t" +
-		"Artist: " + clip.Artist() + "\n\t" +
-		"Genre : " + clip.Genre() + "\n"
+	str := clip.file + "\n"
+	for i, tag := range clip.tags {
+		str += "\t" + tagStr[i] + ":" + tag + "\n"
+	}
+	return str
 }
-
-
