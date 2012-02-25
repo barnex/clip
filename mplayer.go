@@ -18,12 +18,8 @@ func (m *MPlayer) Play(file string) {
 
 	// If the command was killed with signal 9,
 	// the player was just stopped, so we don't crash
-	if waitmsg, ok := err.(*exec.ExitError); ok {
-		if waitmsg.WaitStatus != 9 {
+	if _, ok := err.(*exec.ExitError); !ok {
 			Check(err)
-		}
-	} else {
-		Check(err) // TODO: don't crash 
 	}
 
 	log.Println("mplayer output", string(out))
