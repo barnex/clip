@@ -3,10 +3,10 @@ package main
 // This file implements fuzzy tagging
 
 import (
-	"strings"
+	//"strings"
 )
 
-func Fuzzy(file string) string {
-	file = strings.ToLower(file)
-	return file
-}
+//func Fuzzy(file string) string {
+//	file = strings.ToLower(file)
+//	return file
+//}
