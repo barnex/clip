@@ -62,29 +62,29 @@ func (clip *Clip) initTags() {
 	clip.tags[TAG_ARTIST] = path.Base(parent2)
 }
 
-//func (clip *Clip) File() string {
-//	return clip.file
-//}
-//
-//func (clip *Clip) Track() string {
-//	return clip.tags[TAG_TRACK]
-//}
-//
-//func (clip *Clip) Title() string {
-//	return clip.tags[TAG_TITLE]
-//}
-//
-//func (clip *Clip) Album() string {
-//	return clip.tags[TAG_ALBUM]
-//}
-//
-//func (clip *Clip) Artist() string {
-//	return clip.tags[TAG_ARTIST]
-//}
-//
-//func (clip *Clip) Genre() string {
-//	return clip.tags[TAG_GENRE]
-//}
+func (clip *Clip) File() string {
+	return clip.file
+}
+
+func (clip *Clip) Track() string {
+	return clip.tags[TAG_TRACK]
+}
+
+func (clip *Clip) Title() string {
+	return clip.tags[TAG_TITLE]
+}
+
+func (clip *Clip) Album() string {
+	return clip.tags[TAG_ALBUM]
+}
+
+func (clip *Clip) Artist() string {
+	return clip.tags[TAG_ARTIST]
+}
+
+func (clip *Clip) Genre() string {
+	return clip.tags[TAG_GENRE]
+}
 
 func (clip *Clip) String() string {
 	str := clip.file + "\n"

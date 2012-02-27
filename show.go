@@ -25,6 +25,8 @@ func (player *Player) show(str string) (resp string, ok bool) {
 		return
 	case "library":
 		resp = player.Lib.String()
+	case "tree":
+		resp = player.artists.String()
 	}
 	ok = true
 	return

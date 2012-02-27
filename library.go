@@ -12,7 +12,8 @@ import (
 
 // Stores a music Library
 type Lib struct {
-	clips []*Clip
+	clips   []*Clip // all music files
+	artists *Tag    // root node for all artists
 }
 
 // Constructs a new Library
@@ -25,6 +26,7 @@ func NewLib() *Lib {
 // Initializes the library
 func (lib *Lib) init() {
 	lib.clips = []*Clip{}
+	lib.artists = NewTag("")
 }
 
 // Recursively import directory or file into library.
@@ -49,9 +51,16 @@ func (lib *Lib) Import(arg string) {
 	}
 
 	if !info.IsDir() {
-		lib.clips = append(lib.clips, NewClip(arg))
+		lib.ImportFile(arg)
 		return
 	}
+}
+
+// Non-recursively import file into directory
+func (lib *Lib) ImportFile(file string) {
+	clip := NewClip(file)
+	lib.clips = append(lib.clips, clip)
+	lib.artists.Child(clip.Artist()).Child(clip.Album()).Child(clip.Title())
 }
 
 // Print the entire library recursively
