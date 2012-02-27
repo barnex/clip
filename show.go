@@ -2,7 +2,9 @@ package main
 
 // This file implements the "show" command
 
-import ()
+import (
+	"fmt"
+)
 
 func init() {
 	help["show"] = `Show various types of objects`
@@ -26,7 +28,9 @@ func (player *Player) show(str string) (resp string, ok bool) {
 	case "library":
 		resp = player.Lib.String()
 	case "tree":
-		resp = player.artists.String()
+		resp = player.artists.Print(0)
+	case "tags":
+		resp = fmt.Sprint(player.tags)
 	}
 	ok = true
 	return

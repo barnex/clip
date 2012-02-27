@@ -14,6 +14,7 @@ import (
 type Lib struct {
 	clips   []*Clip // all music files
 	artists *Tag    // root node for all artists
+	tags    []*Tag
 }
 
 // Constructs a new Library
@@ -27,6 +28,7 @@ func NewLib() *Lib {
 func (lib *Lib) init() {
 	lib.clips = []*Clip{}
 	lib.artists = NewTag("")
+	lib.tags = []*Tag{}
 }
 
 // Recursively import directory or file into library.
@@ -60,8 +62,23 @@ func (lib *Lib) Import(arg string) {
 func (lib *Lib) ImportFile(file string) {
 	clip := NewClip(file)
 	lib.clips = append(lib.clips, clip)
-	tag := lib.artists.Child(clip.Artist()).Child(clip.Album()).Child(clip.Title())
-	tag.file = file
+	artist, ok1 := lib.artists.Child(clip.Artist())
+	if !ok1 {
+		lib.AddTag(artist)
+	}
+	album, ok2 := artist.Child(clip.Album())
+	if !ok2 {
+		lib.AddTag(album)
+	}
+	title, ok3 := album.Child(clip.Title())
+	if !ok3 {
+		lib.AddTag(title)
+	}
+	title.file = file
+}
+
+func (lib *Lib) AddTag(tag *Tag) {
+	lib.tags = append(lib.tags, tag)
 }
 
 // Print the entire library recursively
