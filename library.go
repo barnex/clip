@@ -60,7 +60,8 @@ func (lib *Lib) Import(arg string) {
 func (lib *Lib) ImportFile(file string) {
 	clip := NewClip(file)
 	lib.clips = append(lib.clips, clip)
-	lib.artists.Child(clip.Artist()).Child(clip.Album()).Child(clip.Title())
+	tag := lib.artists.Child(clip.Artist()).Child(clip.Album()).Child(clip.Title())
+	tag.file = file
 }
 
 // Print the entire library recursively
