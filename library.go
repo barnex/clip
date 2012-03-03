@@ -81,6 +81,15 @@ func (lib *Lib) AddTag(tag *Tag) {
 	lib.tags = append(lib.tags, tag)
 }
 
+func (lib *Lib) FindTag(tag string) *Tag {
+	for _, t := range lib.tags {
+		if t.fuzzy == tag {
+			return t
+		}
+	}
+	return nil
+}
+
 // Print the entire library recursively
 func (lib *Lib) WriteTo(out io.Writer) (n int, err error) {
 	for _, clip := range lib.clips {

@@ -15,6 +15,7 @@ func (api API) Show(args []string) (resp, err string) {
 		str, ok := api.player.show(arg)
 		if !ok {
 			err += "show: not found: " + arg + "\n"
+			err += "options: library tree tags <tag>"
 		}
 		resp += str + "\n"
 	}
@@ -24,7 +25,13 @@ func (api API) Show(args []string) (resp, err string) {
 func (player *Player) show(str string) (resp string, ok bool) {
 	switch str {
 	default:
-		return
+		tag := player.FindTag(str)
+		if tag != nil {
+			resp = tag.Print(0)
+		} else {
+			ok = false
+			return
+		}
 	case "library":
 		resp = player.Lib.String()
 	case "tree":
