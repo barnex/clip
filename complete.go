@@ -2,7 +2,9 @@ package main
 
 // This file implements bash programmable completion.
 
-import ()
+import (
+	"strconv"
+)
 
 func init() {
 	help["complete"] = `do bash autocompletion on arguments`
@@ -10,7 +12,9 @@ func init() {
 
 func (api API) Complete(args []string) (resp, err string) {
 	Debug("complete", args)
-	resp = "KAKA"
+	idx, _ := strconv.Atoi(args[0])
+	args = args[2:idx+2]
+	Debug("complete", args)
 	return
 }
 
