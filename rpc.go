@@ -45,6 +45,12 @@ func (rpc RPC) Call(args []string, resp *string) (err error) {
 	cmd := args[0]  // first arg is command (e.g.: "play")
 	args = args[1:] // rest are arguments (e.g.: "jazz")
 
+	*resp, err = rpc.call(cmd, args)
+
+	return
+}
+
+func (rpc RPC) call(cmd string, args []string) (resp string, err error) {
 	// convert first character to uppercase
 	first := unicode.ToUpper(rune(cmd[0]))
 	Cmd := string(first) + cmd[1:] // (e.g.: Play)
@@ -82,11 +88,10 @@ func (rpc RPC) Call(args []string, resp *string) (err error) {
 
 	// call the method
 	r := m.Call(callArgs)
-	*resp = r[0].Interface().(string)   // by convention, response is 1st return value
+	resp = r[0].Interface().(string)    // by convention, response is 1st return value
 	errStr := r[1].Interface().(string) // by convention, error is 2nd return value
 	if errStr != "" {
 		err = errors.New(errStr)
 	}
-
 	return
 }

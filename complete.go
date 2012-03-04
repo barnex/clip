@@ -38,9 +38,9 @@ func (api API) Complete(args []string) (resp, err string) {
 	}
 	Debug("complete", myargs, "len", len(myargs))
 
-	switch myargs[0]{
-		default: return
-		case "": resp = listCommands()
+	switch myargs[0] {
+	default:
+		return
 	}
 	return
 }
