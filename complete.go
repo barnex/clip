@@ -11,7 +11,10 @@ func init() {
 	help["complete"] = `do bash autocompletion on arguments`
 }
 
+// args: $COMP_WORDC $COMP_LINE, e.g.:
+//	3 clip play jaz
 func (api API) Complete(args []string) (resp, err string) {
+	// don't crash on panic
 	defer func() {
 		e := recover()
 		if e != nil {
@@ -19,16 +22,16 @@ func (api API) Complete(args []string) (resp, err string) {
 			resp = ""
 		}
 	}()
-	Debug("complete", args)
 
+	// arg[0]: $COMP_WORDC: index of word to complete
+	// arg[i]: $COMP_LINE[i-1]: "clip arg0 arg1 ..."
 	myargs := []string{}
-
 	if len(args) > 2 {
 		idx, _ := strconv.Atoi(args[0])
 		myargs = args[2 : idx+2]
 	}
-
 	Debug("complete", myargs)
+
 	return
 }
 
