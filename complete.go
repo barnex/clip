@@ -10,6 +10,7 @@ func init() {
 
 func (api API) Complete(args []string) (resp, err string) {
 	Debug("complete", args)
+	resp = "KAKA"
 	return
 }
 
