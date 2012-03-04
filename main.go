@@ -12,8 +12,8 @@ import (
 // not normally used by the user.
 var (
 	//flag_complete *bool = flag.Bool("c", false, "bash completion of arguments")
-	flag_daemon   *bool = flag.Bool("d", false, "run in daemon mode")
-	flag_version  *bool = flag.Bool("v", false, "show version and exit")
+	flag_daemon  *bool = flag.Bool("d", false, "run in daemon mode")
+	flag_version *bool = flag.Bool("v", false, "show version and exit")
 )
 
 func main() {

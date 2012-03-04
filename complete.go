@@ -3,6 +3,7 @@ package main
 // This file implements bash programmable completion.
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -11,10 +12,23 @@ func init() {
 }
 
 func (api API) Complete(args []string) (resp, err string) {
+	defer func() {
+		e := recover()
+		if e != nil {
+			err = fmt.Sprint(e)
+			resp = ""
+		}
+	}()
 	Debug("complete", args)
-	idx, _ := strconv.Atoi(args[0])
-	args = args[2:idx+2]
-	Debug("complete", args)
+
+	myargs := []string{}
+
+	if len(args) > 2 {
+		idx, _ := strconv.Atoi(args[0])
+		myargs = args[2 : idx+2]
+	}
+
+	Debug("complete", myargs)
 	return
 }
 
