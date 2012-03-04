@@ -81,6 +81,8 @@ func (lib *Lib) AddTag(tag *Tag) {
 	lib.tags = append(lib.tags, tag)
 }
 
+// TODO: possibly return multiple tags. 
+// TODO: do not return tag that is already in parent tag (like song in album with same name)
 func (lib *Lib) FindTag(tag string) *Tag {
 	for _, t := range lib.tags {
 		if t.fuzzy == tag {

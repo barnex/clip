@@ -2,14 +2,14 @@ package main
 
 // This file implements bash programmable completion.
 
-import (
-//"os"
-//"fmt"
-//"strings"
-)
+import ()
 
-func (player *Player) Complete(args []string) (resp, err string) {
-	panic("please implement me")
+func init() {
+	help["complete"] = `do bash autocompletion on arguments`
+}
+
+func (api API) Complete(args []string) (resp, err string) {
+	Debug("complete", args)
 	return
 }
 

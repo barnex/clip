@@ -15,7 +15,7 @@ func (api API) Show(args []string) (resp, err string) {
 		str, ok := api.player.show(arg)
 		if !ok {
 			err += "show: not found: " + arg + "\n"
-			err += "options: library tree tags <tag>"
+			err += "options: library tree tags <tag>\n"
 		}
 		resp += str + "\n"
 	}
@@ -37,7 +37,9 @@ func (player *Player) show(str string) (resp string, ok bool) {
 	case "tree":
 		resp = player.artists.Print(0)
 	case "tags":
-		resp = fmt.Sprint(player.tags)
+		for _, tag := range player.tags {
+			resp += fmt.Sprintln(tag)
+		}
 	}
 	ok = true
 	return
