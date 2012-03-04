@@ -18,20 +18,30 @@ func (api API) Complete(args []string) (resp, err string) {
 	defer func() {
 		e := recover()
 		if e != nil {
+			Debug(e)
 			err = fmt.Sprint(e)
 			resp = ""
 		}
 	}()
 
-	// arg[0]: $COMP_WORDC: index of word to complete
-	// arg[i]: $COMP_LINE[i-1]: "clip arg0 arg1 ..."
+	// myargs: arguments, without preceeding "clip" 
+	// and only up to the one being completed.
+	// "" means new word to be started.
 	myargs := []string{}
-	if len(args) > 2 {
-		idx, _ := strconv.Atoi(args[0])
-		myargs = args[2 : idx+2]
+	idx, _ := strconv.Atoi(args[0])
+	idx--
+	//Debug("idx", idx)
+	//Debug("len", len(args)-2)
+	myargs = args[2:]
+	if idx == len(args)-2 {
+		myargs = append(myargs, "")
 	}
-	Debug("complete", myargs)
+	Debug("complete", myargs, "len", len(myargs))
 
+	switch myargs[0]{
+		default: return
+		case "": resp = listCommands()
+	}
 	return
 }
 
